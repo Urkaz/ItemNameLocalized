@@ -83,6 +83,10 @@ INL.CommandHandler = function(message, editbox)
 					whLang = "pt."
 				elseif locale == "ruRU" then
 					whLang = "ru."
+				elseif locale == "koKR" then
+					whLang = "ko."
+				elseif locale == "zhTW" then
+					whLang = "cn."
 				end
 
 				if not color then
@@ -207,6 +211,10 @@ INL.DropDownMenu = function(frame, level, menuList)
 	UIDropDownMenu_AddButton(info)
 	info.text, info.arg1, info.checked = L["ruRU"], "ruRU", INL.settings.selectedLocale == "ruRU"
 	UIDropDownMenu_AddButton(info)
+	info.text, info.arg1, info.checked = L["koKR"], "koKR", INL.settings.selectedLocale == "koKR"
+	UIDropDownMenu_AddButton(info)
+	info.text, info.arg1, info.checked = L["zhTW"], "zhTW", INL.settings.selectedLocale == "zhTW"
+	UIDropDownMenu_AddButton(info)
 end
 
 INL.CheckBoxOnClick = function(self)
@@ -314,6 +322,10 @@ INL.SelectLocaleAndFree = function(locale)
 		INL.items = INL_Items.pt_BR
 	elseif locale == "ruRU" then
 		INL.items = INL_Items.ru_RU
+	elseif locale == "koKR" then
+		INL.items = INL_Items.ko_KR
+	elseif locale == "zhTW" then
+		INL.items = INL_Items.zh_TW
 	end
 
 	INL_Items.en_US = nil
@@ -323,6 +335,8 @@ INL.SelectLocaleAndFree = function(locale)
 	INL_Items.it_IT = nil
 	INL_Items.pt_BR = nil
 	INL_Items.ru_RU = nil
+	INL_Items.ko_KR = nil
+	INL_Items.zh_TW = nil
 
 	print(string.format(L["Loaded"], L[locale]));
 end

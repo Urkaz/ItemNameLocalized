@@ -24,5 +24,7 @@ L["itIT"] = "Italiano"
 L["deDE"] = "Alemán"
 L["ptBR"] = "Portugués"
 L["ruRU"] = "Ruso"
+L["koKR"] = "Coreano"
+L["zhTW"] = "Chino"
 
 end

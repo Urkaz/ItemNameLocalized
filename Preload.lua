@@ -6,4 +6,6 @@ INL_Items = {
 	it_IT = nil,
 	pt_BR = nil,
 	ru_RU = nil,
+	ko_KR = nil,
+	zh_TW = nil,
 }

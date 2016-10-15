@@ -48,6 +48,10 @@ else:
 		print "--------------------------"
 	else:
 		baseUrl = 'https://eu.api.battle.net/wow/item/%d'
+		if currLocale == "ko_KR":
+			baseUrl = 'https://kr.api.battle.net/wow/item/%d'
+		if currLocale == "zh_TW":
+			baseUrl = 'https://tw.api.battle.net/wow/item/%d'
 
 		print "--------------------------"
 		print "> Start parsing %s locale" % (currLocale)

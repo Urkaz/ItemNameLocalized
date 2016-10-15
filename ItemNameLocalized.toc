@@ -17,6 +17,8 @@ ItemLocales/de_DE.lua
 ItemLocales/it_IT.lua
 ItemLocales/pt_BR.lua
 ItemLocales/ru_RU.lua
+ItemLocales/ko_KR.lua
+ItemLocales/zh_TW.lua
 
 Core.lua
 
