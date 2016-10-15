@@ -1,6 +1,6 @@
 ## Interface: 70000
 ## Title: Item Name Localized
-## Notes: Item tooltips shows the name in the selected locale
+## Notes: Show the name of the items in a different locale
 ## Author: Urkaz
 ## Version: 1.0
 ## SavedVariablesPerCharacter: INL_Settings
