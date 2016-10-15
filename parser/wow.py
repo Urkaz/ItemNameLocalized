@@ -58,7 +58,7 @@ else:
 
 		if not os.path.isfile(fileName):
 			f = open(fileName,'w')
-			f.write(currLocale + 'INL_Items. = {\n')
+			f.write('INL_Items.%s = {\n' % (currLocale))
 			f.close()
 
 		lastItemID = 0

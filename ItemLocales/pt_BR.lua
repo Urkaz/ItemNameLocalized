@@ -1,4 +1,4 @@
-pt_BRINL_Items. = {
+INL_Items.pt_BR = {
   {25,"Espadim Usado"},
   {35,"Cajado Curvado"},
   {36,"Maça Gasta"},
@@ -11,9 +11,4 @@ pt_BRINL_Items. = {
   {45,"Camisa do Escudeiro"},
   {47,"Sapatos do Salteador"},
   {48,"Calças do Salteador"},
-  {49,"Camisa do Salteador"},
-  {51,"Botas do Neófito"},
-  {52,"Calças do Neófito"},
-  {53,"Camisa do Neófito"},
-  {55,"Botas do Aprendiz"},
 }

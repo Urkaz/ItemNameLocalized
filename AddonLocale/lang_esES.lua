@@ -1,14 +1,15 @@
 -- Spanish localization.
 local locale = GetLocale()
-if locale == 'esES' then
+if locale == 'esES' or locale == 'esMZ' then
 	local L = INL_Addon.strings;
 
 -- Chat messages
 L["Loaded"] = "Cargado idioma |cffff0000%s|r." -- %s is the locale name (enUs, esES, deDE, ... below)
 L["ReloadUI_Chat"] = "Recarga la interfaz para cargar el idioma |cffff0000%s|r." -- %s is the locale name (enUs, esES, deDE, ... below)
+L["WowheadLink"] = "Enlace de Wowhead para %s:" -- %s is the item name with brackets [] and colored 
 
 -- Tooltip
-L["Missing locale"] = "Sin localización"
+L["MissingLocale"] = "Sin localización"
 
 -- Options
 L["showTooltipTitle"] = "Muestra el nombre del objeto localizado en el título del tooltip.";
