@@ -1,0 +1,2 @@
+# ItemNameLocalized
+WoW Addon
