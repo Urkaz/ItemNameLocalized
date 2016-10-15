@@ -1,0 +1,7 @@
+wow.py en_US 118213 150000
+wow.py es_ES 75781 150000
+wow.py de_DE 75007 150000
+wow.py fr_FR 73008 150000
+wow.py it_IT 214 150000
+wow.py pt_BR 56 150000
+wow.py ru_RU 89 150000

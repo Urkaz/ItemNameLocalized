@@ -1,0 +1,24 @@
+## Interface: 70000
+## Title: Item Name Localized
+## Notes: Item tooltips shows the name in the selected locale
+## Author: Urkaz
+## Version: 1.0
+## SavedVariablesPerCharacter: INL_Settings
+## X-Curse-Packaged-Version: 1.0
+## X-Curse-Project-Name: Item Name Localized
+## X-Curse-Project-ID: item-name-localized
+
+Preload.lua
+
+ItemLocales/en_US.lua
+ItemLocales/es_ES.lua
+ItemLocales/fr_FR.lua
+ItemLocales/de_DE.lua
+ItemLocales/it_IT.lua
+ItemLocales/pt_BR.lua
+ItemLocales/ru_RU.lua
+
+Core.lua
+
+AddonLocale/lang_default.lua
+AddonLocale/lang_esES.lua
