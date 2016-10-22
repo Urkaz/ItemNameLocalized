@@ -191,7 +191,7 @@ INL.DropDownInit = function()
 		info.text = L[locale]
 		info.arg1 = locale
 		info.checked = INL.settings.selectedLocale == locale
-		if locale == "ptBR" or locale == "koKR" or locale == "zhTW" then
+		if locale == "koKR" or locale == "zhTW" then
 			info.disabled = true
 		else
 			info.disabled = false
@@ -305,26 +305,6 @@ INL.SelectLocaleAndFree = function(locale)
 			INL_Items[k] = nil
 		end
     end
-	
-	--[[wipe(INL_Items.enUS)
-	wipe(INL_Items.esES)
-	wipe(INL_Items.frFR)
-	wipe(INL_Items.deDE)
-	wipe(INL_Items.itIT)
-	wipe(INL_Items.ptBR)
-	wipe(INL_Items.ruRU)
-	wipe(INL_Items.koKR)
-	wipe(INL_Items.zhTW)
-
-	INL_Items.enUS = nil
-	INL_Items.esES = nil
-	INL_Items.frFR = nil
-	INL_Items.deDE = nil
-	INL_Items.itIT = nil
-	INL_Items.ptBR = nil
-	INL_Items.ruRU = nil
-	INL_Items.koKR = nil
-	INL_Items.zhTW = nil]]
 
 	wipe(INL_Items)
 	INL_Items = nil
