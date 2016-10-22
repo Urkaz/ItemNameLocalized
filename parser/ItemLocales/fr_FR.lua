@@ -1,4 +1,4 @@
-INL_Items.fr_FR = {
+INL_Items.frFR = {
   {25,"Epée courte usée"},
   {35,"Bâton tordu"},
   {36,"Masse détériorée"},

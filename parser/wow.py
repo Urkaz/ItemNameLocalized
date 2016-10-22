@@ -62,7 +62,7 @@ else:
 
 		if not os.path.isfile(fileName):
 			f = open(fileName,'w')
-			f.write('INL_Items.%s = {\n' % (currLocale))
+			f.write('INL_Items.%s = {\n' % (currLocale.replace("_", "")))
 			f.close()
 
 		lastItemID = 0
@@ -104,17 +104,15 @@ else:
 			f.close()
 		
 		except KeyboardInterrupt:
-			print "--------------------------"
-			print "> wow.py %s %i %i" % (currLocale, lastItemID, rangeEnd)
-			replace("wowID.txt", "wow.py %s %i %i" % (currLocale, rangeStart, rangeEnd), "wow.py %s %i %i" % (currLocale, lastItemID, rangeEnd))
+			a = 0
 		except:
 			print "--------------------------"
-			print "> wow.py %s %i %i" % (currLocale, lastItemID, rangeEnd)
-			print "--------------------------"
 			print " /!\ AN ERROR HAS OCCURRED"
-			print "--------------------------"
-			replace("wowID.txt", "wow.py %s %i %i" % (currLocale, rangeStart, rangeEnd), "wow.py %s %i %i" % (currLocale, lastItemID, rangeEnd))
 			raise
+		
+		print "--------------------------"
+		print "> wow.py %s %i %i" % (currLocale, lastItemID, rangeEnd)
+		replace("wowID.txt", "wow.py %s %i %i" % (currLocale, rangeStart, rangeEnd), "wow.py %s %i %i" % (currLocale, lastItemID, rangeEnd))
 		
 		print "--------------------------"
 		print "> Finished parsing %s locale" % (currLocale)

@@ -1,4 +1,4 @@
-INL_Items.es_ES = {
+INL_Items.esES = {
   {25,"Espada corta desgastada"},
   {35,"Bastón doblado"},
   {36,"Maza desgastada"},

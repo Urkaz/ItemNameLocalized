@@ -1,4 +1,4 @@
-INL_Items.de_DE = {
+INL_Items.deDE = {
   {25,"Abgenutztes Kurzschwert"},
   {35,"Gebogener Stab"},
   {36,"Abgenutzter Streitkolben"},
@@ -85883,11 +85883,9 @@ INL_Items.de_DE = {
   {128611,"Formel: Hals - Mal der fernen Armee"},
   {128612,"Formel: Hals - Mal des verborgenen Satyrs"},
   {128617,"Formel: Handschuhe - Kräuterkunde (Legion)"},
-  {128618,"Formel: Handschuhe - Bergbau (Legion)
-"},
+  {128618,"Formel: Handschuhe - Bergbau (Legion)"},
   {128619,"Formel: Handschuhe - Kürschnerei (Legion)"},
-  {128620,"Formel: Handschuhe - Vermessung (Legion)
-"},
+  {128620,"Formel: Handschuhe - Vermessung (Legion)"},
   {128621,"Formel: Verzauberter Kessel"},
   {128622,"Formel: Verzauberte Fackel"},
   {128623,"Formel: Verzauberter Stift"},

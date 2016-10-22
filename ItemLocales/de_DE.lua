@@ -1,4 +1,4 @@
-INL_Items.de_DE = {
+INL_Items.deDE = {
   {25,"Abgenutztes Kurzschwert"},
   {35,"Gebogener Stab"},
   {36,"Abgenutzter Streitkolben"},

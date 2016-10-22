@@ -63,12 +63,24 @@ INL.CommandHandler = function(message, editbox)
 
 	if command == "reset" then
 		INL.ResetDefaultConfig()
-	elseif command == "wowhead" then
-		local id = INL.GetItemIDFromLink(rest)
-		local color = string.match(rest, "|c(.+)|H")
-		if id then
-			local itemIndex = INL.FindIndex(id,1,table.maxn(INL.items))
-			if itemIndex then
+	elseif command == "link" then
+		local links = {}
+		local pattern = "(%|c.-%|r)"
+
+		local first, last, s = string.find(rest, pattern)
+		local i = 1
+		while s ~= nil do
+			links[i] = s
+			i = i + 1
+			rest = string.sub(rest, 0, first-1) .. string.sub(rest, last)
+			first, last, s = string.find(rest, pattern)
+		end
+
+		print("|cffff0000INL|r Wowhead links:")
+		for i, link in ipairs(links) do
+			local newLink, id = INL.LocalizeHyperlink(link)
+
+			if id then
 				local whLang = ""
 				local locale = INL.settings.selectedLocale
 				if locale == "esES" then
@@ -89,24 +101,7 @@ INL.CommandHandler = function(message, editbox)
 					whLang = "cn."
 				end
 
-				if not color then
-					color = "ffffffff"
-				end
-
-				print(string.format(L["WowheadLink"], "|c" .. color .. "[" .. INL.items[itemIndex][2] .. "]|r"))
-				print("http://" .. whLang .. "wowhead.com/item=" .. id)
-			end
-		end
-	elseif command == "print" then
-		local id = INL.GetItemIDFromLink(rest)
-		local color = string.match(rest, "|c(.+)|H")
-		if id then
-			local itemIndex = INL.FindIndex(id,1,table.maxn(INL.items))
-			if itemIndex then
-				if not color then
-					color = "ffffffff"
-				end
-				print("|c" .. color .. "[" .. INL.items[itemIndex][2] .. "]|r")
+				print(newLink .. ": http://" .. whLang .. "wowhead.com/item=" .. id)
 			end
 		end
 	else
@@ -153,7 +148,9 @@ INL.CreateConfigPanel = function()
 	dropDown.configKey = "selectedLocale"
 
 	UIDropDownMenu_SetWidth(dropDown, 150)
-	UIDropDownMenu_Initialize(dropDown, INL.DropDownMenu)
+	UIDropDownMenu_SetText(dropDown, L[INL.settings.selectedLocale])
+
+	dropDown.initialize = INL.DropDownInit
 
 	local reloadButton = CreateFrame("Button", "INLReloadButton", opt, "UIPanelButtonTemplate")
 	reloadButton:SetPoint("TOP",-110,-80-3*32)
@@ -183,38 +180,32 @@ INL.CreateConfigPanel = function()
 	InterfaceOptions_AddCategory(opt)
 end
 
+INL.DropDownInit = function()
+	local locales = {"enUS", "esES", "frFR", "deDE", "itIT", "ptBR", "ruRU", "koKR", "zhTW"}
+	local info = {}
+
+	wipe(info)
+	info.func = INL.DropDownOnClick
+
+	for i, locale in ipairs(locales) do
+		info.text = L[locale]
+		info.arg1 = locale
+		info.checked = INL.settings.selectedLocale == locale
+		if locale == "ptBR" or locale == "koKR" or locale == "zhTW" then
+			info.disabled = true
+		else
+			info.disabled = false
+		end
+		UIDropDownMenu_AddButton(info)
+	end
+end
+
 INL.DropDownOnClick = function(self, arg1, arg2, checked)
 	INL.settings.selectedLocale = arg1
 	INL.requireReload = true
 	INL_Settings = INL.settings
 	UIDropDownMenu_SetText(INL.config[2], L[arg1])
 	print("|cffff0000INL|r: " .. string.format(L["ReloadUI_Chat"], L[arg1]));
-end
-
-INL.DropDownMenu = function(frame, level, menuList)
-	UIDropDownMenu_SetText(frame, L[INL.settings.selectedLocale])
-
-	local info = UIDropDownMenu_CreateInfo()
-	info.func = INL.DropDownOnClick
-	info.text, info.arg1, info.checked = L["enUS"], "enUS", INL.settings.selectedLocale == "enUS"
-	UIDropDownMenu_AddButton(info)
-	info.text, info.arg1, info.checked = L["esES"], "esES", INL.settings.selectedLocale == "esES"
-	UIDropDownMenu_AddButton(info)
-	info.text, info.arg1, info.checked = L["frFR"], "frFR", INL.settings.selectedLocale == "frFR"
-	UIDropDownMenu_AddButton(info)
-	info.text, info.arg1, info.checked = L["deDE"], "deDE", INL.settings.selectedLocale == "deDE"
-	UIDropDownMenu_AddButton(info)
-	info.disabled = true
-	info.text, info.arg1, info.checked = L["itIT"], "itIT", INL.settings.selectedLocale == "itIT"
-	UIDropDownMenu_AddButton(info)
-	info.text, info.arg1, info.checked = L["ptBR"], "ptBR", INL.settings.selectedLocale == "ptBR"
-	UIDropDownMenu_AddButton(info)
-	info.text, info.arg1, info.checked = L["ruRU"], "ruRU", INL.settings.selectedLocale == "ruRU"
-	UIDropDownMenu_AddButton(info)
-	info.text, info.arg1, info.checked = L["koKR"], "koKR", INL.settings.selectedLocale == "koKR"
-	UIDropDownMenu_AddButton(info)
-	info.text, info.arg1, info.checked = L["zhTW"], "zhTW", INL.settings.selectedLocale == "zhTW"
-	UIDropDownMenu_AddButton(info)
 end
 
 INL.CheckBoxOnClick = function(self)
@@ -224,27 +215,25 @@ end
 
 -- TOOLTIP
 INL.AddTooltipLine = function(tooltip, name, color, label)
-	--local found = false
+	local found = false
 
 	-- Check if we already added to this tooltip.
-	--[[for i = 1,15 do
+	for i = 1,15 do
 		local frame = _G[tooltip:GetName() .. "TextLeft" .. i]
 		local text
 		if frame then text = frame:GetText() end
 		if text and text == label then found = true break end
 	end
 
-	if not found then]]
-		if color then
-			tooltip:AddDoubleLine(label, "|c" .. color .. name)
-		else
-			tooltip:AddDoubleLine(label, "|cffffffff" .. name)
-		end
+	--print(found)
+	
+	if not found then
+		tooltip:AddDoubleLine(label, "|c" .. color .. name)
 		tooltip:Show()
-	--end
+	end
 end
 
-INL.AppendTooltipTitle = function(tooltip, name, index)
+INL.AppendTooltipTitle = function(tooltip, name, color, index)
 	append = "\n[" .. name .. "]"
 
 	local tooltipTitle = _G[tooltip:GetName() .. "TextLeft" .. index]
@@ -268,21 +257,21 @@ INL.AttachItemTooltip = function(self, index)
 			local id = INL.GetItemIDFromLink(link)
 			local color = string.match(link, "|c(.+)|H")
 
-			if id then
+			if id and color then
 				itemIndex = INL.FindIndex(id,1,table.maxn(INL.items))
 				if itemIndex then
 					if INL.settings.showTooltipLine then
 						INL.AddTooltipLine(self, INL.items[itemIndex][2], color, L[INL.settings.selectedLocale] .. ":")
 					end
 					if INL.settings.showTooltipTitle then
-						INL.AppendTooltipTitle(self, INL.items[itemIndex][2], index)
+						INL.AppendTooltipTitle(self, INL.items[itemIndex][2], color, index)
 					end
 				else
 					if INL.settings.showTooltipLine then
 						INL.AddTooltipLine(self, L["MissingLocale"] .. " #".. id, "ffff0000", L[INL.settings.selectedLocale] .. ":")
 					end
 					if INL.settings.showTooltipTitle then
-						INL.AppendTooltipTitle(self, "|cffff0000" .. L["MissingLocale"] .. " #".. id .."|r", index)
+						INL.AppendTooltipTitle(self, "|cffff0000" .. L["MissingLocale"] .. " #".. id .."|r", color, index)
 					end
 				end
 			end
@@ -308,35 +297,40 @@ INL.FindIndex = function(id, minI, maxI)
 end
 
 INL.SelectLocaleAndFree = function(locale)
-	if locale == "enUS" or not locale then
-		INL.items = INL_Items.en_US
-	elseif locale == "esES" then
-		INL.items = INL_Items.es_ES
-	elseif locale == "frFR" then
-		INL.items = INL_Items.fr_FR
-	elseif locale == "deDE" then
-		INL.items = INL_Items.de_DE
-	elseif locale == "itIT" then
-		INL.items = INL_Items.it_IT
-	elseif locale == "ptBR" then
-		INL.items = INL_Items.pt_BR
-	elseif locale == "ruRU" then
-		INL.items = INL_Items.ru_RU
-	elseif locale == "koKR" then
-		INL.items = INL_Items.ko_KR
-	elseif locale == "zhTW" then
-		INL.items = INL_Items.zh_TW
-	end
+	INL.items = INL_Items[locale]
 
-	INL_Items.en_US = nil
-	INL_Items.es_ES = nil
-	INL_Items.fr_FR = nil
-	INL_Items.de_DE = nil
-	INL_Items.it_IT = nil
-	INL_Items.pt_BR = nil
-	INL_Items.ru_RU = nil
-	INL_Items.ko_KR = nil
-	INL_Items.zh_TW = nil
+	for k, v in pairs(INL_Items) do
+        if k ~= locale then
+			wipe(INL_Items[k])
+			INL_Items[k] = nil
+		end
+    end
+	
+	--[[wipe(INL_Items.enUS)
+	wipe(INL_Items.esES)
+	wipe(INL_Items.frFR)
+	wipe(INL_Items.deDE)
+	wipe(INL_Items.itIT)
+	wipe(INL_Items.ptBR)
+	wipe(INL_Items.ruRU)
+	wipe(INL_Items.koKR)
+	wipe(INL_Items.zhTW)
+
+	INL_Items.enUS = nil
+	INL_Items.esES = nil
+	INL_Items.frFR = nil
+	INL_Items.deDE = nil
+	INL_Items.itIT = nil
+	INL_Items.ptBR = nil
+	INL_Items.ruRU = nil
+	INL_Items.koKR = nil
+	INL_Items.zhTW = nil]]
+
+	wipe(INL_Items)
+	INL_Items = nil
+
+	collectgarbage()
+	UpdateAddOnMemoryUsage()
 
 	print(string.format(L["Loaded"], L[locale]));
 end
@@ -360,4 +354,17 @@ INL.GetItemIDFromLink = function(link)
 		end
 	end
 	return tonumber(id)
+end
+
+INL.LocalizeHyperlink = function(link)
+	local id = INL.GetItemIDFromLink(link)
+
+	if id then
+		local itemIndex = INL.FindIndex(id,1,table.maxn(INL.items))
+		if itemIndex then
+			local newLink = string.gsub(link, "%[.*%]", "[" .. INL.items[itemIndex][2] .. "]")
+			return newLink, id
+		end
+	end
+	return link, nil
 end

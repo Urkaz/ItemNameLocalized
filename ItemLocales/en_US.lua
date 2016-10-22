@@ -1,4 +1,4 @@
-INL_Items.en_US = {
+INL_Items.enUS = {
   {25,"Worn Shortsword"},
   {35,"Bent Staff"},
   {36,"Worn Mace"},
