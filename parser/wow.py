@@ -108,6 +108,10 @@ else:
 		except:
 			print "--------------------------"
 			print " /!\ AN ERROR HAS OCCURRED"
+			print "--------------------------"
+			print "> wow.py %s %i %i" % (currLocale, lastItemID, rangeEnd)
+			replace("wowID.txt", "wow.py %s %i %i" % (currLocale, rangeStart, rangeEnd), "wow.py %s %i %i" % (currLocale, lastItemID, rangeEnd))
+			print "--------------------------"
 			raise
 		
 		print "--------------------------"
