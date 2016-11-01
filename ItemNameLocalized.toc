@@ -1,4 +1,4 @@
-## Interface: 70000
+## Interface: 70100
 ## Title: Item Name Localized
 ## Notes: Show the name of the items in a different locale
 ## Author: Urkaz
@@ -24,3 +24,4 @@ Core.lua
 
 AddonLocale/lang_default.lua
 AddonLocale/lang_esES.lua
+AddonLocale/lang_deDE.lua

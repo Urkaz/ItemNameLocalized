@@ -76,7 +76,7 @@ INL.CommandHandler = function(message, editbox)
 			first, last, s = string.find(rest, pattern)
 		end
 
-		print("|cffff0000INL|r Wowhead links:")
+		print("|cffff0000INL:|r " .. L.Chat.WowheadLink)
 		for i, link in ipairs(links) do
 			local newLink, id = INL.LocalizeHyperlink(link)
 
@@ -101,7 +101,7 @@ INL.CommandHandler = function(message, editbox)
 					whLang = "cn."
 				end
 
-				print(newLink .. ": http://" .. whLang .. "wowhead.com/item=" .. id)
+				print("[" .. i .. "] " .. newLink .. ": http://" .. whLang .. "wowhead.com/item=" .. id)
 			end
 		end
 	else
@@ -126,14 +126,14 @@ INL.CreateConfigPanel = function()
 	local checkTitle = CreateFrame("CheckButton", "INLShowTooltipTitleCheck", opt,"UICheckButtonTemplate")
 	checkTitle.var = "showTooltipTitle"
 	checkTitle.text:SetFontObject("GameFontNormal")
-	checkTitle.text:SetText(L["showTooltipTitle"])
+	checkTitle.text:SetText(L.Options.showTooltipTitle)
 	checkTitle:SetPoint("TOPLEFT",30,-50)
 	checkTitle:SetScript("OnClick", function(self) INL.CheckBoxOnClick(self) end)
 
 	local checkLine = CreateFrame("CheckButton", "INLShowTooltipLineCheck", opt,"UICheckButtonTemplate")
 	checkLine.var = "showTooltipLine"
 	checkLine.text:SetFontObject("GameFontNormal")
-	checkLine.text:SetText(L["showTooltipLine"])
+	checkLine.text:SetText(L.Options.showTooltipLine)
 	checkLine:SetPoint("TOPLEFT",30,-50-32)
 	checkLine:SetScript("OnClick", function(self) INL.CheckBoxOnClick(self) end)
 
@@ -144,23 +144,23 @@ INL.CreateConfigPanel = function()
 	dropDownText:SetPoint("BOTTOMLEFT", dropDown, "TOPLEFT", 16, 3)
 	dropDown.Text = dropDownText
 
-	dropDown.Text:SetText(L["selectedLocale"])
+	dropDown.Text:SetText(L.Options.selectedLocale)
 	dropDown.configKey = "selectedLocale"
 
 	UIDropDownMenu_SetWidth(dropDown, 150)
-	UIDropDownMenu_SetText(dropDown, L[INL.settings.selectedLocale])
+	UIDropDownMenu_SetText(dropDown, L.Lang[INL.settings.selectedLocale])
 
 	dropDown.initialize = INL.DropDownInit
 
 	local reloadButton = CreateFrame("Button", "INLReloadButton", opt, "UIPanelButtonTemplate")
 	reloadButton:SetPoint("TOP",-110,-80-3*32)
-	reloadButton:SetText(L["ReloadUIButton"])
+	reloadButton:SetText(L.Options.ReloadUIButton)
 	reloadButton:SetWidth(200)
 	reloadButton:SetScript("OnClick", function(self) ReloadUI() end)
 
 	local resetButton = CreateFrame("Button", "INLResetButton", opt, "UIPanelButtonTemplate")
 	resetButton:SetPoint("TOP",110,-80-3*32)
-	resetButton:SetText(L["ResetButton"])
+	resetButton:SetText(L.Options.ResetButton)
 	resetButton:SetWidth(200)
 	resetButton:SetScript("OnClick", function(self) INL.ResetDefaultConfig() end)
 
@@ -188,14 +188,14 @@ INL.DropDownInit = function()
 	info.func = INL.DropDownOnClick
 
 	for i, locale in ipairs(locales) do
-		info.text = L[locale]
+		info.text = L.Lang[locale]
 		info.arg1 = locale
 		info.checked = INL.settings.selectedLocale == locale
-		if locale == "koKR" or locale == "zhTW" then
+		--[[if locale == "koKR" or locale == "zhTW" then
 			info.disabled = true
 		else
 			info.disabled = false
-		end
+		end]]
 		UIDropDownMenu_AddButton(info)
 	end
 end
@@ -204,8 +204,8 @@ INL.DropDownOnClick = function(self, arg1, arg2, checked)
 	INL.settings.selectedLocale = arg1
 	INL.requireReload = true
 	INL_Settings = INL.settings
-	UIDropDownMenu_SetText(INL.config[2], L[arg1])
-	print("|cffff0000INL|r: " .. string.format(L["ReloadUI_Chat"], L[arg1]));
+	UIDropDownMenu_SetText(INL.config[2], L.Lang[arg1])
+	print("|cffff0000INL|r: " .. string.format(L.Chat.ReloadUI, L.Lang[arg1]));
 end
 
 INL.CheckBoxOnClick = function(self)
@@ -261,17 +261,17 @@ INL.AttachItemTooltip = function(self, index)
 				itemIndex = INL.FindIndex(id,1,table.maxn(INL.items))
 				if itemIndex then
 					if INL.settings.showTooltipLine then
-						INL.AddTooltipLine(self, INL.items[itemIndex][2], color, L[INL.settings.selectedLocale] .. ":")
+						INL.AddTooltipLine(self, INL.items[itemIndex][2], color, L.Lang[INL.settings.selectedLocale] .. ":")
 					end
 					if INL.settings.showTooltipTitle then
 						INL.AppendTooltipTitle(self, INL.items[itemIndex][2], color, index)
 					end
 				else
 					if INL.settings.showTooltipLine then
-						INL.AddTooltipLine(self, L["MissingLocale"] .. " #".. id, "ffff0000", L[INL.settings.selectedLocale] .. ":")
+						INL.AddTooltipLine(self, L.Tooltip.MissingLocale .. " #".. id, "ffff0000", L.Lang[INL.settings.selectedLocale] .. ":")
 					end
 					if INL.settings.showTooltipTitle then
-						INL.AppendTooltipTitle(self, "|cffff0000" .. L["MissingLocale"] .. " #".. id .."|r", color, index)
+						INL.AppendTooltipTitle(self, "|cffff0000" .. L.Tooltip.MissingLocale .. " #".. id .."|r", color, index)
 					end
 				end
 			end
@@ -312,7 +312,7 @@ INL.SelectLocaleAndFree = function(locale)
 	collectgarbage()
 	UpdateAddOnMemoryUsage()
 
-	print(string.format(L["Loaded"], L[locale]));
+	print(string.format(L.Chat.Loaded, L.Lang[locale]));
 end
 
 INL.ResetDefaultConfig = function()
