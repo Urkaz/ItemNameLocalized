@@ -103,7 +103,7 @@ try:
 
 			lastItemID = rangeStart
 
-			while rangeStart < rangeEnd - 1:
+			while lastItemID < rangeEnd - 1:
 				try:
 					#REQUEST AND PARSE ITEMS
 					for itemID in xrange(lastItemID, rangeEnd):
