@@ -29,3 +29,4 @@ All names and IDs are obtained from the official API, if some item is not locali
 ### Known issues
 * [Should be fixed in v1.1] On the recipes the localized name can appear two times.
 * [Should be fixed in v1.1] The game says the addon is unsafe.
+* Item #140070 has a missing localization
