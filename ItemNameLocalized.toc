@@ -2,9 +2,9 @@
 ## Title: Item Name Localized
 ## Notes: Show the name of the items in a different locale
 ## Author: Urkaz
-## Version: 1.0
+## Version: 1.3
 ## SavedVariablesPerCharacter: INL_Settings
-## X-Curse-Packaged-Version: 1.0
+## X-Curse-Packaged-Version: 1.3
 ## X-Curse-Project-Name: Item Name Localized
 ## X-Curse-Project-ID: item-name-localized
 

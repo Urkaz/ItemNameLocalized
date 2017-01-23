@@ -83,7 +83,7 @@ INL.CommandHandler = function(message, editbox)
 			if id then
 				local whLang = ""
 				local locale = INL.settings.selectedLocale
-				if locale == "esES" then
+				if locale == "esES" or locale == "esMX" then
 					whLang = "es."
 				elseif locale == "frFR" then
 					whLang = "fr."
@@ -181,7 +181,7 @@ INL.CreateConfigPanel = function()
 end
 
 INL.DropDownInit = function()
-	local locales = {"enUS", "esES", "frFR", "deDE", "itIT", "ptBR", "ruRU", "koKR", "zhTW"}
+	local locales = {"enUS", "esES", "esMX", "frFR", "deDE", "itIT", "ptBR", "ruRU", "koKR", "zhTW"}
 	local info = {}
 
 	wipe(info)
@@ -191,11 +191,11 @@ INL.DropDownInit = function()
 		info.text = L.Lang[locale]
 		info.arg1 = locale
 		info.checked = INL.settings.selectedLocale == locale
-		--[[if locale == "koKR" or locale == "zhTW" then
+		if locale == "esMX" then
 			info.disabled = true
 		else
 			info.disabled = false
-		end]]
+		end
 		UIDropDownMenu_AddButton(info)
 	end
 end

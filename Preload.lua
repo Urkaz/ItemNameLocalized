@@ -1,6 +1,7 @@
 INL_Items = {
 	enUS = nil,
 	esES = nil,
+	esMX = nil,
 	frFR = nil,
 	deDE = nil,
 	itIT = nil,

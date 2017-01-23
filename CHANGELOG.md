@@ -1,5 +1,5 @@
 ### v1.3
-* Updated addon deDE localization.
+* Updated addon localizations.
 * Added new 7.1.5 items and updated some old ones.
 
 ### v1.2

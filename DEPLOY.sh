@@ -5,9 +5,10 @@ GAME_VERSION="7.1.5"
 
 FOLDERS=("AddonLocale" "ItemLocales")
 FILES=("Core.lua" "Preload.lua" "ItemNameLocalized.toc" "CHANGELOG.md" "README.md" "LICENSE")
+FINAL_FILE="${ADDON_MAIN_FOLDER}_${ADDON_VERSION}_${GAME_VERSION}.zip"
 
 echo "--------------------------"
-echo "> Deploying "$ADDON_MAIN_FOLDER
+echo "> Deploying "$FINAL_FILE
 echo "--------------------------"
 
 mkdir -p ./$ADDON_MAIN_FOLDER
@@ -25,10 +26,9 @@ done
 
 echo "--------------------------"
 echo "> Deleting old zip"
-rm -f ./${ADDON_MAIN_FOLDER}_${ADDON_VERSION}_${GAME_VERSION}.zip
+rm -f ./FINAL_FILE
 echo "> Creating zip"
-zip -r ./${ADDON_MAIN_FOLDER}_${ADDON_VERSION}_${GAME_VERSION}.zip ./$ADDON_MAIN_FOLDER/*
+zip -r ./FINAL_FILE ./$ADDON_MAIN_FOLDER/*
 echo "> zip created"
 echo "--------------------------"
-rm -rf ./$ADDON_MAIN_FOLDER
 read -p "> Deploy finished. Press [Enter]..."
