@@ -1,10 +1,10 @@
 #!/bin/bash
 ADDON_MAIN_FOLDER="ItemNameLocalized"
-ADDON_VERSION="v1.2"
-GAME_VERSION="7.1"
+ADDON_VERSION="v1.3"
+GAME_VERSION="7.1.5"
 
 FOLDERS=("AddonLocale" "ItemLocales")
-FILES=("Core.lua" "Preload.lua" "ItemNameLocalized.toc" "CHANGELOG.md" "README.md")
+FILES=("Core.lua" "Preload.lua" "ItemNameLocalized.toc" "CHANGELOG.md" "README.md" "LICENSE")
 
 echo "--------------------------"
 echo "> Deploying "$ADDON_MAIN_FOLDER

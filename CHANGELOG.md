@@ -1,3 +1,7 @@
+### v1.3
+* Updated addon deDE localization.
+* Added new 7.1.5 items and updated some old ones.
+
 ### v1.2
 * Added deDE localization. (Thanks to pas06 and xaiznah2!)
 * Added new item locales: zhTW and koKR.
