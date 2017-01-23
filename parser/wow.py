@@ -114,7 +114,7 @@ try:
 
 						params = dict(
 							locale=currLocale,
-							apikey='cmjcr3qatwxfezg2ugruszjvhd69mnmr'
+							apikey='apikey'
 						)
 
 						resp = requests.get(url=url, params=params)

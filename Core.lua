@@ -13,7 +13,7 @@ INL_Addon = {
 	requireReload = false,
 };
 
-local vers	= "1.0"
+local vers	= "1.3"
 local INL	= INL_Addon
 local L 	= INL_Addon.strings
 
@@ -34,7 +34,7 @@ ShoppingTooltip2:HookScript("OnTooltipSetItem", function(self) INL.AttachItemToo
 
 -- SLASH COMMANDS
 SLASH_INL1 = '/inl';
-SlashCmdList["INL"] = function(...) INL.CommandHandler(...); end; -- Also a valid assignment strategy
+SlashCmdList["INL"] = function(...) INL.CommandHandler(...); end;
 
 ---------------
 -- FUNCTIONS --
