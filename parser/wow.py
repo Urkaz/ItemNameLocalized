@@ -103,6 +103,17 @@ try:
 
 			lastItemID = rangeStart
 
+			apiKey = ""
+			if os.path.isfile("apikey.key"):
+				fa = open("apikey.key",'r')
+				apiKey = fa.readline()
+				fa.close()
+			
+			params = dict(
+				locale=currLocale,
+				apikey=apiKey
+			)
+			
 			while lastItemID < rangeEnd - 1:
 				try:
 					#REQUEST AND PARSE ITEMS
@@ -111,11 +122,6 @@ try:
 						lastItemID = itemID
 
 						url = baseUrl % (itemID)
-
-						params = dict(
-							locale=currLocale,
-							apikey='apikey'
-						)
 
 						resp = requests.get(url=url, params=params)
 						data = json.loads(resp.text)
