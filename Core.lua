@@ -182,7 +182,7 @@ INL.CreateConfigPanel = function()
 end
 
 INL.DropDownInit = function()
-	local locales = {"enUS", "esES", "esMX", "frFR", "deDE", "itIT", "ptBR", "ruRU", "koKR", "zhTW"}
+	local locales = {"enUS", "esES", "esMX", "frFR", "deDE", "itIT", "ptBR", "ruRU", "koKR", "zhCN", "zhTW"}
 	local info = {}
 
 	wipe(info)
@@ -192,7 +192,7 @@ INL.DropDownInit = function()
 		info.text = L.Lang[locale]
 		info.arg1 = locale
 		info.checked = INL.settings.selectedLocale == locale
-		if locale == "esMX" then
+		if locale == "esMX" or locale == "zhCN" then
 			info.disabled = true
 		else
 			info.disabled = false

@@ -8,3 +8,4 @@ wow.py ru_RU 147907 147908
 wow.py ko_KR 147907 147908
 wow.py zh_TW 147907 147908
 wow.py es_MX 18018 147908
+wow.py zhCN 0 147908

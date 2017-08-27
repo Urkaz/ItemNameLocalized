@@ -18,7 +18,8 @@ L["Lang"] = {
 	["koKR"] = "Koreanisch",
 	["ptBR"] = "Portugiesisch",
 	["ruRU"] = "Russisch",
-	["zhTW"] = "Chinesisch",
+	["zhCN"] = "Chinesisch (vereinfacht)",
+	["zhTW"] = "Chinesisch (traditionell)",
 }
 L["Options"] = {
 	["ReloadUIButton"] = "Benutzeroberfläche neu laden",
