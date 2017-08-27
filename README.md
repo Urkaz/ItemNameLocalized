@@ -11,15 +11,15 @@ The addon uses 23~MB of memory since all the item names of the selected locale a
 All names and IDs are obtained from the official API, if some item is not localized in some language, tell me and I will try to add it as soon as possible.
 
 ### Locales supported
-* enUS (7.1.5)
-* esES (7.1.5)
-* frFR (7.1.5)
-* deDE (7.1.5)
-* itIT (7.1.5)
-* ptBR (7.1.5)
-* ruRU (7.1.5)
-* koKR (7.1.5)
-* zhTW (7.1.5)
+* enUS (7.2.5)
+* esES (7.2.5)
+* frFR (7.2.5)
+* deDE (7.2.5)
+* itIT (7.2.5)
+* ptBR (7.2.5)
+* ruRU (7.2.5)
+* koKR (7.2.5)
+* zhTW (7.2.5)
 * esMX (planned for a future release)
 
 ### Current features

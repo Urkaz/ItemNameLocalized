@@ -6,7 +6,7 @@ if locale == 'deDE' then
 L["Chat"] = {
 	["Loaded"] = "Geladene Spracheinstellung: |cffff0000%s|r.",
 	["ReloadUI"] = "Lade die Benutzeroberfläche neu, um die Spracheinstellung \"|cffff0000%s|r\" zu laden.",
-	["WowheadLink"] = "Wowhead-Link:"
+	["WowheadLink"] = "Wowhead-Link:",
 }
 L["Lang"] = {
 	["deDE"] = "Deutsch",
@@ -18,17 +18,17 @@ L["Lang"] = {
 	["koKR"] = "Koreanisch",
 	["ptBR"] = "Portugiesisch",
 	["ruRU"] = "Russisch",
-	["zhTW"] = "Chinesisch"
+	["zhTW"] = "Chinesisch",
 }
 L["Options"] = {
 	["ReloadUIButton"] = "Benutzeroberfläche neu laden",
 	["ResetButton"] = "Standardkonfiguration zurücksetzen",
 	["selectedLocale"] = "Sprache (Erfordert ein Neuladen des UIs)",
 	["showTooltipLine"] = "Die lokalisierte Zeichenfolge auf einer Zeile im Tooltip anzeigen.",
-	["showTooltipTitle"] = "Die lokalisierte Zeichenfolge im Tooltip-Titel anzeigen."
+	["showTooltipTitle"] = "Die lokalisierte Zeichenfolge im Tooltip-Titel anzeigen.",
 }
 L["Tooltip"] = {
-	["MissingLocale"] = "Fehlende Spracheinstellung"
+	["MissingLocale"] = "Fehlende Spracheinstellung",
 }
 
 end

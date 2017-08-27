@@ -1,3 +1,7 @@
+### v1.4
+* Added ptPR (thanks to Canettieri!) and ruRU (thanks to DogmatX!) localizations.
+* Added 7.2.5 items and updated some old ones.
+
 ### v1.3
 * Updated addon localizations.
 * Added new 7.1.5 items and updated some old ones.

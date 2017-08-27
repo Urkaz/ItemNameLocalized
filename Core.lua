@@ -13,7 +13,7 @@ INL_Addon = {
 	requireReload = false,
 };
 
-local vers	= "1.3"
+local vers	= "1.4"
 local INL	= INL_Addon
 local L 	= INL_Addon.strings
 
@@ -106,6 +106,7 @@ INL.CommandHandler = function(message, editbox)
 		end
 	else
 		InterfaceOptionsFrame_OpenToCategory(INL.configPanel);
+		InterfaceOptionsFrame_OpenToCategory(INL.configPanel); -- Blizz bug workaround
 	end
 end
 
