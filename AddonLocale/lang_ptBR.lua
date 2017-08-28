@@ -1,6 +1,6 @@
 -- German localization.
 local locale = GetLocale()
-if locale == 'ruRU' then
+if locale == 'ptBR' then
 	local L = INL_Addon.strings;
 
 L["Chat"] = {
