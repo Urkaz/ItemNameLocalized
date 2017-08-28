@@ -1,5 +1,9 @@
+### v1.4.1
+* Added koKR (thanks to yuk6196!) addon localizations.
+* Fixed ptPR and ruRU addon localizations.
+
 ### v1.4
-* Added ptPR (thanks to Canettieri!) and ruRU (thanks to DogmatX!) localizations.
+* Added ptPR (thanks to Canettieri!) and ruRU (thanks to DogmatX!) addon localizations.
 * Updated some addon localizations.
 * Added 7.2.5 items and updated some old ones.
 
@@ -8,7 +12,7 @@
 * Added new 7.1.5 items and updated some old ones.
 
 ### v1.2
-* Added deDE localization. (Thanks to pas06 and xaiznah2!)
+* Added deDE addon localization. (Thanks to pas06 and xaiznah2!)
 * Added new item locales: zhTW and koKR.
 * Added new 7.1 items.
 
