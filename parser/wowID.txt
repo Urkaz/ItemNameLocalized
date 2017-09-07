@@ -7,5 +7,7 @@ wow.py pt_BR 153490 153490
 wow.py ru_RU 153490 153490
 wow.py ko_KR 153490 153490
 wow.py zh_TW 153490 153490
-wow.py es_MX 56841 153490
+wow.py es_MX 56921 153490
 wow.py zh_CN 0 153490
+
+wow_append.py es_ES 534 153490
