@@ -18,8 +18,7 @@ L["Lang"] = {
 	["koKR"] = "한국어",
 	["ptBR"] = "포르투갈어",
 	["ruRU"] = "러시아어",
-	["zhCN"] = "중국어 (간체)",
-	["zhTW"] = "중국어 (번체)",
+	["zhTW"] = "중국어",
 }
 L["Options"] = {
 	["ReloadUIButton"] = "UI 다시 불러오기",

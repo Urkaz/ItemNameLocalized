@@ -6,15 +6,15 @@ from tempfile import mkstemp
 from shutil import move
 from os import remove, close
 
-def checkFileAccess(file):
-	if os.path.exists(file):
+def checkFileAccess(file_path):
+	if os.path.exists(file_path):
 		try:
-			os.rename(file, file)
-			#print 'Access on file "' + file +'" is available!'
+			os.rename(file_path, file_path)
+			#print 'Access on file "' + file_path +'" is available!'
 			return True
 		except OSError as e:
 			pass
-			#print 'Access-error on file "' + file+ '"! \n' + str(e)
+			#print 'Access-error on file "' + file_path + '"! \n' + str(e)
 	return False
 
 def replace(file_path, pattern, subst):
@@ -162,6 +162,7 @@ try:
 			f = open(fileName,'a')
 			f.write('}')
 			f.close()
+			lastItemID += 1
 
 			print "--------------------------"
 			print "> Finished parsing %s locale" % (currLocale)

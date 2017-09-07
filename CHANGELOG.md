@@ -1,3 +1,8 @@
+### v1.5
+* Added new 7.3 items and updated some old ones.
+* Added new item locale: ESMX.
+* Updated some addon localizations.
+
 ### v1.4.1
 * Added koKR (thanks to yuk6196!) addon localization.
 * Fixed ptPR and ruRU addon localizations.
@@ -18,7 +23,7 @@
 
 ### v1.1
 * Added new locales: itIT, ptBR, and ruRU.
-* Merged "wowhead" and "print" commands into "link". It shows the Wowhead URL and an hyperlink of that item from where you can copy the name.
+* Merged "wowhead" and "print" commands into "link". It shows the Wowhead URL and a hyperlink of that item from where you can copy the name.
 * Fixed some errors.
 
 ### v1.0
