@@ -1,7 +1,7 @@
 #!/bin/bash
 ADDON_MAIN_FOLDER="ItemNameLocalized"
 ADDON_VERSION="v1.5"
-GAME_VERSION="7.3"
+GAME_VERSION="7.3.5"
 
 FOLDERS=("AddonLocale" "ItemLocales")
 FILES=("Core.lua" "Preload.lua" "ItemNameLocalized.toc" "CHANGELOG.md" "README.md" "LICENSE")
@@ -30,5 +30,8 @@ rm -f ./$FINAL_FILE
 echo "> Creating zip"
 zip -r ./$FINAL_FILE ./$ADDON_MAIN_FOLDER/*
 echo "> zip created"
+echo "--------------------------"
+echo "> Cleaning"
+rm -rf ./$ADDON_MAIN_FOLDER
 echo "--------------------------"
 read -p "> Deploy finished. Press [Enter]..."
