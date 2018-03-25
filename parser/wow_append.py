@@ -139,7 +139,6 @@ class Parser():
 		self.currLocale = ''
 		self.rangeStart = 25
 		self.rangeEnd = 153490
-		self.compactMode = False
 		
 		self.processStarted = False
 		self.lastItemID = 0
@@ -149,7 +148,6 @@ class Parser():
 		self.file = None
 		self.removedLua = []
 		self.dbFile = File("wowID.txt")
-		self.error = False
 		
 		#Check dbFile file
 		if not self.dbFile.Exists():
@@ -287,7 +285,8 @@ class Parser():
 	def Run(self):
 		import requests, json, datetime
 		
-		self.error = False
+		error = False
+		addedItems = 0
 		
 		try:
 			print " \033[32mStarting\033[0m item parser"
@@ -306,7 +305,7 @@ class Parser():
 			self.file.GetNumberOfLines()
 			
 			self.processStarted = True
-			while self.lastItemID < self.rangeEnd-1 and not self.error:
+			while self.lastItemID < self.rangeEnd-1 and not error:
 				try:
 					#REQUEST AND PARSE ITEMS
 					for itemID in xrange(self.lastItemID, self.rangeEnd):
@@ -325,7 +324,7 @@ class Parser():
 								print data
 								self.PrintError("E", "No 'name' field in data")
 								print "--------------------------"
-								self.error = True
+								error = True
 								break
 							
 							name = data["name"]
@@ -334,46 +333,48 @@ class Parser():
 							luaString = '  {%i,"%s"},\n' % (itemID, name)
 							luaString = luaString.encode('utf-8')
 							
-							exists = False
 							result = self.FindInFile(itemID, 1, self.file.lines)
-							if not result[1]:
+							exists = result[1]
+
+							if not exists:
 								self.file.InsertInLine(result[0], luaString)
 								self.file.lines += 1
-								exists = True
+								addedItems += 1
 							
 							if len(name) > self.strLen+3:
 								name = name[:self.strLen] + "..."
 							
 							if exists:
-								print (" %s - \033[31m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
-							else:
 								print (" %s - \033[32m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
+							else:
+								print (" %s - \033[31m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
 						else:
 							if resp.status_code == 404:
 								if 'reason' not in data:
 									self.PrintError("E", "404 Error: No reason found")
-									self.error = True
+									error = True
 									break
 								else:
-									print " %s - \033[33m#%i\033[0m - /!\ %s" % (time, itemID, data["reason"].encode('utf-8'))
+									print " %s - \033[33m#%i\033[0m - %s" % (time, itemID, data["reason"].encode('utf-8'))
+							elif resp.status_code == 504:
+								self.PrintError("E", "504 Error: Gateway timeout")
+								error = True
+								break
 							else:
-								self.PrintError("E", "%i Error: Unknown error code" % (resp.status_code))
-								self.error = True
+								self.PrintError("E", "%i Error: Unknown error code" % (resp.status_code)) #504
+								error = True
 								break
 				except KeyboardInterrupt:
-					self.error = True
+					error = True
 					raise
 				except:
 					self.PrintError("E", "Unknown Error")
-					self.error = True
+					error = True
 					raise
 			
-			if not self.error:
+			if not error:
 				self.lastItemID += 1
-			
-			print " \033[32mFinished\033[0m parsing \033[36m%s\033[0m" % (self.currLocale)
-			print "--------------------------"
-			self.utils.PlaySound(2000, 250, 1)
+				
 		except KeyboardInterrupt:
 			print "--------------------------"
 			if self.processStarted:
@@ -388,7 +389,13 @@ class Parser():
 			print " New indexes saved:"
 			self.SaveIndexes()
 			print "--------------------------"
-			self.rangeStart = self.lastItemID
+			print " Stats:"
+			print "\tItems parsed: \033[36m%i\033[0m" % (self.lastItemID - self.rangeStart)
+			print "\tNew items added: \033[36m%i\033[0m" % (addedItems)
+			print "--------------------------"
+			print " \033[32mFinished\033[0m parsing \033[36m%s\033[0m" % (self.currLocale)
+			print "--------------------------"
+			self.utils.PlaySound(2000, 250, 1)
 
 class Utils():
 	def __init__(self):
