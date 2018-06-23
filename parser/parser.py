@@ -147,11 +147,11 @@ class Parser():
 		self.apiKey = ""
 		self.file = None
 		self.removedLua = []
-		self.dbFile = File("wowID.txt")
+		self.dbFile = File("parser_progress.txt")
 		
 		#Check dbFile file
 		if not self.dbFile.Exists():
-			self.PrintError("E", 'File "wowID.txt" does not exist.')
+			self.PrintError("E", 'File "parser_progress.txt" does not exist.')
 			self.Exit()
 		
 		#Config
@@ -272,9 +272,9 @@ class Parser():
 		self.file.WriteLines(contents)
 	
 	def SaveIndexes(self):
-		self.Command = "wow_append.py %s %i %i" % (self.currLocale, self.lastItemID, self.rangeEnd)
-		print " \033[35mwow_append.py %s %i %i\033[0m" % (self.currLocale, self.lastItemID, self.rangeEnd)
-		self.dbFile.ReplacePattern("wow_append.py %s %i %i" % (self.currLocale, self.rangeStart, self.rangeEnd), "wow_append.py %s %i %i" % (self.currLocale, self.lastItemID, self.rangeEnd))
+		self.Command = "parser.py %s %i %i" % (self.currLocale, self.lastItemID, self.rangeEnd)
+		print " \033[35mparser.py %s %i %i\033[0m" % (self.currLocale, self.lastItemID, self.rangeEnd)
+		self.dbFile.ReplacePattern("parser.py %s %i %i" % (self.currLocale, self.rangeStart, self.rangeEnd), "parser.py %s %i %i" % (self.currLocale, self.lastItemID, self.rangeEnd))
 	
 	def FindInFile(self, itemID, minI, maxI):
 		contents = self.file.ReadFile()
