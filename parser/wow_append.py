@@ -246,7 +246,7 @@ class Parser():
 		
 		self.ReadAPIKey("apikey.key");
 		
-		path = 'ItemLocales/' + self.currLocale + '_APPEND.lua'
+		path = 'ItemLocales/' + self.currLocale + '.lua'
 		init = 'INL_Items.%s = {\n}' % (self.currLocale.replace("_", ""))
 		self.file = File(path)
 		if not self.file.Exists():
@@ -401,6 +401,7 @@ class Parser():
 				
 			if self.lastItemID >= self.rangeEnd-1:
 				self.Continue = False
+				print "--------------------------"
 			
 		except KeyboardInterrupt:
 			print "--------------------------"
