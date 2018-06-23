@@ -168,10 +168,30 @@ class Parser():
 		self.utils = Utils()
 		self.utils.PlaySound(2000, 250, 1)
 		
+		#restart after error
+		self.Command = ""
+		self.Continue = True
+		
+		try:
+			os.system("chcp 65001 > nul")
+		except:
+			pass
+
 	def Exit(self):
-		if self.osSleep:
-			self.osSleep.Uninhibit()
-		sys.exit()
+		try:
+			if self.osSleep:
+				self.osSleep.Uninhibit()
+			if self.Continue:
+				print (self.Command)
+				if self.Command != "":
+					os.system(self.Command)
+			else:
+				sys.exit()
+		except KeyboardInterrupt:
+			sys.exit()
+		except:
+			sys.exit()
+			raise
 	
 	def PrintArgs(self):
 		print " \033[31m/!\ ERROR\033[0m: No arguments: wow.py  locale [rangeStart [rangeEnd]]"
@@ -252,6 +272,7 @@ class Parser():
 		self.file.WriteLines(contents)
 	
 	def SaveIndexes(self):
+		self.Command = "wow_append.py %s %i %i" % (self.currLocale, self.lastItemID, self.rangeEnd)
 		print " \033[35mwow_append.py %s %i %i\033[0m" % (self.currLocale, self.lastItemID, self.rangeEnd)
 		self.dbFile.ReplacePattern("wow_append.py %s %i %i" % (self.currLocale, self.rangeStart, self.rangeEnd), "wow_append.py %s %i %i" % (self.currLocale, self.lastItemID, self.rangeEnd))
 	
@@ -367,6 +388,9 @@ class Parser():
 				except KeyboardInterrupt:
 					error = True
 					raise
+				except requests.exceptions.ConnectionError:
+					error = True
+					raise
 				except:
 					self.PrintError("E", "Unknown Error")
 					error = True
@@ -375,13 +399,21 @@ class Parser():
 			if not error:
 				self.lastItemID += 1
 				
+			if self.lastItemID >= self.rangeEnd-1:
+				self.Continue = False
+			
 		except KeyboardInterrupt:
 			print "--------------------------"
 			if self.processStarted:
 				self.PrintError("W", "Process interrupted by the user")
 			else:
 				self.PrintError("W", "Process interrupted by the user before starting")
+			self.Continue = False
+		except requests.exceptions.ConnectionError:
+			print "--------------------------"
+			self.PrintError("E", "There was a problem with the internet connection.")
 		except:
+			print "--------------------------"
 			self.PrintError("E", "Unknown Error")
 			raise
 		finally:
