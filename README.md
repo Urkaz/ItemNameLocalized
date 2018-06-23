@@ -28,7 +28,8 @@ All names and IDs are obtained from the official API, if some item is not locali
 * Generate Wowhead URLs of any item with a command (/inl link [shift+click one or more items]).
 
 ### TODO
-* Maybe move each language into a separate addon module with individual download to reduce the total weight? 
+* Maybe move each language into a separate addon module with individual download to reduce the total size or something like that? 
+* Make the parser check if the item name is different than the one we have stored, and if it is, change it.
 
 ### Known issues
 * None! :D

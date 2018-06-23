@@ -276,11 +276,11 @@ class Parser():
 		print " \033[35mparser.py %s %i %i\033[0m" % (self.currLocale, self.lastItemID, self.rangeEnd)
 		self.dbFile.ReplacePattern("parser.py %s %i %i" % (self.currLocale, self.rangeStart, self.rangeEnd), "parser.py %s %i %i" % (self.currLocale, self.lastItemID, self.rangeEnd))
 	
-	def FindInFile(self, itemID, minI, maxI):
+	def FindInFile(self, item, minI, maxI):
 		contents = self.file.ReadFile()
-		return self.FindInFile_Contents(itemID, minI, maxI, contents)
+		return self.FindInContents(item, minI, maxI, contents)
 	
-	def FindInFile_Contents(self, itemID, minI, maxI, contents):
+	def FindInContents(self, item, minI, maxI, contents):
 		guess = int(math.floor(minI + (maxI - minI) / 2))
 		#print (guess, minI, maxI)
 		if maxI >= minI:			
@@ -289,18 +289,19 @@ class Parser():
 			#print (guess, minI, maxI, guessed_line[:-1])
 			m = re.search('(\d{1,7})', guessed_line)
 			guessed_ID = int(m.group(0))
+			#print(guessed_ID)
 			
-			if guessed_ID == itemID:
+			if guessed_ID == item:
 				return [guess, True]
 			
-			if guessed_ID < itemID:
-				#print guessed_ID , "<",  itemID
-				return self.FindInFile_Contents(itemID, guess + 1, maxI, contents)
+			if guessed_ID < item:
+				#print guessed_ID , "<",  item
+				return self.FindInContents(item, guess + 1, maxI, contents)
 			else:
-				#print guessed_ID , ">",  itemID
-				return self.FindInFile_Contents(itemID, minI, guess - 1, contents)
+				#print guessed_ID , ">",  item
+				return self.FindInContents(item, minI, guess - 1, contents)
 		else:
-			#print itemID , "NOT FOUND at pos" , guess
+			#print item , "NOT FOUND at pos" , guess
 			return [guess, False]
 	
 	def Run(self):
@@ -391,7 +392,11 @@ class Parser():
 				except requests.exceptions.ConnectionError:
 					error = True
 					raise
+				except IOError:
+					error = True
+					raise
 				except:
+					print "--------------------------"
 					self.PrintError("E", "Unknown Error")
 					error = True
 					raise
@@ -413,6 +418,9 @@ class Parser():
 		except requests.exceptions.ConnectionError:
 			print "--------------------------"
 			self.PrintError("E", "There was a problem with the internet connection.")
+		except IOError:
+			print "--------------------------"
+			self.PrintError("E", "There was a problem with the file access.")
 		except:
 			print "--------------------------"
 			self.PrintError("E", "Unknown Error")
