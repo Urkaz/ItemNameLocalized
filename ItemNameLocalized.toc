@@ -1,6 +1,6 @@
 ## Interface: 70300
 ## Title: Item Name Localized
-## Notes: Show the name of the items in a different locale
+## Notes: Show the name of the items in a different language
 ## Author: Urkaz
 ## Version: 1.5
 ## SavedVariablesPerCharacter: INL_Settings

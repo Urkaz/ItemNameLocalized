@@ -158,7 +158,8 @@ class Parser():
 		print "--------------------------"
 		
 		#self.localesList = ["en_US","es_ES","es_MX","de_DE","fr_FR","it_IT","pt_BR","ru_RU","ko_KR","zh_TW"]
-		self.localesList = ["en_US","es_ES"]
+		self.localesList = ["en_US","es_ES","es_MX","de_DE"]
+		#self.localesList = ["es_MX"]
 		self.currLocaleFile = None
 		
 		self.dbFile = File("IDs_list.txt")
@@ -412,7 +413,7 @@ class Parser():
 					result = self.FindInFile(int(itemId), 1, self.currLocaleFile.lines, self.currLocaleFile)
 					exists = result[1]
 					if not exists:
-						command = "parser.py %s %i %i" % (locale, int(itemId)-1, int(itemId)+2)
+						command = "parser.py %s %i %i" % (locale, int(itemId), int(itemId)+2)
 						self.RestoreExtraLua()
 						os.system(command)
 						self.RemoveExtraLua()

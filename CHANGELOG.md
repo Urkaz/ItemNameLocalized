@@ -1,5 +1,5 @@
 ### v1.5
-* Added new 7.3.5 items and updated some old ones.
+* Added 7.3.5 items and updated some old ones.
 * Added new item locale: esMX.
 * Updated some addon localizations.
 
