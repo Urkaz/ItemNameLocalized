@@ -395,6 +395,9 @@ class Parser():
 				except IOError:
 					error = True
 					raise
+				except ValueError:
+					error = True
+					raise
 				except:
 					print "--------------------------"
 					self.PrintError("E", "Unknown Error")
@@ -417,10 +420,13 @@ class Parser():
 			self.Continue = False
 		except requests.exceptions.ConnectionError:
 			print "--------------------------"
-			self.PrintError("E", "There was a problem with the internet connection.")
+			self.PrintError("E", "There was a problem with the Internet connection.")
 		except IOError:
 			print "--------------------------"
 			self.PrintError("E", "There was a problem with the file access.")
+		except ValueError:
+			print "--------------------------"
+			self.PrintError("E", "No JSON object could be decoded")
 		except:
 			print "--------------------------"
 			self.PrintError("E", "Unknown Error")

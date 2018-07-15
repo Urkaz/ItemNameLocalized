@@ -157,9 +157,7 @@ class Parser():
 		print " \033[33mItemNameLocalized Locales Fixer\033[0m"
 		print "--------------------------"
 		
-		#self.localesList = ["en_US","es_ES","es_MX","de_DE","fr_FR","it_IT","pt_BR","ru_RU","ko_KR","zh_TW"]
-		self.localesList = ["en_US","es_ES","es_MX","de_DE"]
-		#self.localesList = ["es_MX"]
+		self.localesList = ["en_US","es_ES","es_MX","de_DE","fr_FR","it_IT","pt_BR","ru_RU","ko_KR","zh_TW"]
 		self.currLocaleFile = None
 		
 		self.dbFile = File("IDs_list.txt")
