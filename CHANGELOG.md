@@ -1,3 +1,6 @@
+### v1.5.1
+* Fix esMX support and update version.
+
 ### v1.5
 * Added 7.3.5 items and updated some old ones.
 * Added new item locale: esMX.
