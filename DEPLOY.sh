@@ -1,6 +1,6 @@
 #!/bin/bash
 ADDON_MAIN_FOLDER="ItemNameLocalized"
-ADDON_VERSION="v1.5.1"
+ADDON_VERSION="v1.5.2"
 GAME_VERSION="8.0.1"
 
 FOLDERS=("AddonLocale" "ItemLocales")
