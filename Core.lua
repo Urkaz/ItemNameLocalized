@@ -13,7 +13,7 @@ INL_Addon = {
 	requireReload = false,
 };
 
-local vers	= "1.5.2"
+local vers	= "1.6"
 local INL	= INL_Addon
 local L 	= INL_Addon.strings
 

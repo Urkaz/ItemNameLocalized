@@ -362,6 +362,8 @@ class Parser():
 								self.file.InsertInLine(result[0], luaString)
 								self.file.lines += 1
 								addedItems += 1
+							#else:
+								#TODO: Check if the name changed
 							
 							if len(name) > self.strLen+3:
 								name = name[:self.strLen] + "..."
