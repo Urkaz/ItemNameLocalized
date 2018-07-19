@@ -1,5 +1,5 @@
 ### v1.6
-* Fix esMX support and update version.
+* Added new 8.0.1 items.
 
 ### v1.5.1 - v1.5.2
 * Fix esMX support and update version.
