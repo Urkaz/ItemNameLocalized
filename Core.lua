@@ -140,18 +140,16 @@ INL.CreateConfigPanel = function()
 
 	local dropDown = CreateFrame("Frame", "INLDropDown", opt, "UIDropDownMenuTemplate")
 	dropDown:SetPoint("TOPLEFT",30,-70-2*32)
+	dropDown.initialize = INL.DropDownInit
 
 	local dropDownText = dropDown:CreateFontString("INLConfigDropLabelLocale", "BACKGROUND", "GameFontNormal")
 	dropDownText:SetPoint("BOTTOMLEFT", dropDown, "TOPLEFT", 16, 3)
-	dropDown.Text = dropDownText
+	dropDownText:SetText(L.Options.selectedLocale)
 
-	dropDown.Text:SetText(L.Options.selectedLocale)
 	dropDown.configKey = "selectedLocale"
 
 	UIDropDownMenu_SetWidth(dropDown, 150)
 	UIDropDownMenu_SetText(dropDown, L.Lang[INL.settings.selectedLocale])
-
-	dropDown.initialize = INL.DropDownInit
 
 	local reloadButton = CreateFrame("Button", "INLReloadButton", opt, "UIPanelButtonTemplate")
 	reloadButton:SetPoint("TOP",-110,-80-3*32)
