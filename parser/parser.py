@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #python 2.7
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 import math
 import sys, os
 from os import remove, close, path, name
@@ -295,12 +299,24 @@ class Parser():
 			#print item , "NOT FOUND at pos" , guess
 			return [guess, False]
 
+	def GetNameFromLine(self, lineIndex):
+		contents = self.file.ReadFile()
+		m = re.search('"([^"]*)"', contents[lineIndex])
+		name = m.group(0)
+		return name
+
+	def ReplaceNameFromLine(self, lineIndex, newText):
+		contents = self.file.ReadFile()
+		self.file.ReplacePattern(contents[lineIndex], newText)
+
 	def Run(self):
 		reqs = Requests()
 		reqs.GetToken()
 
 		error = False
 		addedItems = 0
+		replacedItems = 0
+		isReplaced = False
 
 		try:
 			import requests, datetime
@@ -356,14 +372,26 @@ class Parser():
 								self.file.InsertInLine(result[0], luaString)
 								self.file.lines += 1
 								addedItems += 1
-							#else:
-								#TODO: Check if the name changed
+							else:
+								current_name = self.GetNameFromLine(result[0]-1)
+								new_name = '"%s"' % (name)
+								current_name = current_name.encode('utf-8')
+								new_name = new_name.encode('utf-8')
+								if current_name != new_name:
+									isReplaced = True
+									self.ReplaceNameFromLine(result[0]-1, luaString)
+									replacedItems += 1
+								else:
+									isReplaced = False
 
 							if len(name) > self.strLen+3:
 								name = name[:self.strLen] + "..."
 
 							if exists:
-								print (" %s - \033[32m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
+								if isReplaced:
+									print (" %s - \033[36m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
+								else:
+									print (" %s - \033[32m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
 							else:
 								print (" %s - \033[31m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
 						else:
@@ -435,6 +463,7 @@ class Parser():
 			print " Stats:"
 			print "\tItems parsed: \033[36m%i\033[0m" % (self.lastItemID - self.rangeStart)
 			print "\tNew items added: \033[36m%i\033[0m" % (addedItems)
+			print "\tReplaced items: \033[36m%i\033[0m" % (replacedItems)
 			print "--------------------------"
 			print " \033[32mFinished\033[0m parsing \033[36m%s\033[0m" % (self.currLocale)
 			print "--------------------------"
@@ -461,25 +490,28 @@ class Requests():
 		self.token = ""
 
 	def GetToken(self):
-		import requests, json
-		url = "https://eu.battle.net/oauth/token"
+		try:
+			import requests, json
+			url = "https://eu.battle.net/oauth/token"
 
+			params = dict(
+				grant_type="client_credentials",
+				client_id=self.ReadClientID(),
+				client_secret=self.ReadClientSecret()
+			)
 
-		params = dict(
-			grant_type="client_credentials",
-			client_id=self.ReadClientID(),
-			client_secret=self.ReadClientSecret()
-		)
+			resp = requests.get(url=url, params=params)
+			data = json.loads(resp.text)
 
-		resp = requests.get(url=url, params=params)
-		data = json.loads(resp.text)
-
-		if resp.status_code == 200:
-			if 'access_token' not in data:
-				print data
-				self.PrintError("E", "No 'name' field in data")
-				print "--------------------------"
-			self.token = data["access_token"]
+			if resp.status_code == 200:
+				if 'access_token' not in data:
+					print data
+					self.PrintError("E", "No 'name' field in data")
+					print "--------------------------"
+				self.token = data["access_token"]
+		except ValueError:
+			print "--------------------------"
+			self.PrintError("E", "No JSON TOKEN object could be decoded")
 
 	def ReadClientID(self):
 		if os.path.isfile(self.client_id_file):

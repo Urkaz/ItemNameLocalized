@@ -29,7 +29,6 @@ All names and IDs are obtained from the official API, if some item is not locali
 
 ### TODO
 * Maybe move each language into a separate add-on module with an individual download to reduce the total size or something like that? 
-* Make the parser check if the item name is different than the one we have stored, and if it is, change it.
 
 ### Known issues
-* Korean items lose the quality color in the tooltip name.
+* Sometimes Korean items lose the quality color in the tooltip name.
