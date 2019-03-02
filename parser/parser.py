@@ -40,41 +40,41 @@ class WindowsInhibitor:
         #print("Allowing Windows to go to sleep")
         ctypes.windll.kernel32.SetThreadExecutionState(
             WindowsInhibitor.ES_CONTINUOUS)
-	
+
 class File():
 	def __init__(self, path_):
 		self.path = path_
 		self.lines = 0
-	
+
 	def Exists(self):
 		return os.path.isfile(self.path)
-	
+
 	def Write(self, text):
 		f = open(self.path,'w')
 		f.write(text)
 		f.close()
-	
+
 	def WriteAppend(self, text):
 		f = open(self.path,'a')
 		f.write(text)
 		f.close()
-		
+
 	def ReadFile(self):
 		f = open(self.path, "r")
 		contents = f.readlines()
 		f.close()
 		return contents
-	
+
 	def WriteLines(self, linesArray):
 		f = open(self.path,'w')
 		for line in linesArray:
 			f.write(line)
 		f.close()
-		
+
 	def ReplacePattern(self, pattern, subst):
 		from tempfile import mkstemp
 		from shutil import move
-	
+
 		while not self.CheckFileAccess():
 			pass
 
@@ -89,7 +89,7 @@ class File():
 		remove(self.path)
 		#Move new file
 		move(abs_path, self.path)
-		
+
 	def CheckFileAccess(self):
 		if os.path.exists(self.path):
 			try:
@@ -100,7 +100,7 @@ class File():
 				pass
 				#print 'Access-error on file "' + self.path + '"! \n' + str(e)
 		return False
-	
+
 	def GetNumberOfLines(self):
 		f = open(self.path, 'r')
 		lines = 0
@@ -109,53 +109,52 @@ class File():
 		f.close()
 		self.lines = lines
 		return lines
-		
+
 	def InsertInLine(self, index, value):
 		f = open(self.path, "r")
 		contents = f.readlines()
 		f.close()
 
 		contents.insert(index, value)
-		
+
 		contents = "".join(contents)
 		self.Write(contents)
-	
+
 class Parser():
 	def __init__(self, args):
 		from colorama import init
 		init()
-		
+
 		#If Windows then prevent sleep
 		self.osSleep = None
 		if os.name == 'nt':
 			self.osSleep = WindowsInhibitor()
 			self.osSleep.Inhibit()
-		
+
 		# INIT
 		print "--------------------------"
 		print " \033[33mItemNameLocalized WoW Api Parser\033[0m"
 		print "--------------------------"
-		
+
 		self.currLocale = ''
 		self.rangeStart = 25
 		self.rangeEnd = 153490
-		
+
 		self.processStarted = False
 		self.lastItemID = 0
 		self.strLen = 48
-		self.baseUrl = 'https://eu.api.battle.net/wow/item/%d'
-		self.apiKey = ""
+		self.baseUrl = 'https://eu.api.blizzard.com/wow/item/%d'
 		self.file = None
 		self.removedLua = []
 		self.dbFile = File("parser_progress.txt")
-		
+
 		#Check dbFile file
 		if not self.dbFile.Exists():
 			self.PrintError("E", 'File "parser_progress.txt" does not exist.')
 			self.Exit()
-		
+
 		#Config
-		if len(args) <= 1: 
+		if len(args) <= 1:
 			self.PrintArgs()
 			self.Exit()
 		else:
@@ -163,15 +162,15 @@ class Parser():
 			if self.rangeEnd <= self.rangeStart:
 				self.PrintError("E", "rangeStart can't be less or equal than rangeEnd")
 				self.Exit()
-	
+
 		#Utils
 		self.utils = Utils()
 		self.utils.PlaySound(2000, 250, 1)
-		
+
 		#restart after error
 		self.Command = ""
 		self.Continue = True
-		
+
 		try:
 			os.system("chcp 65001 > nul")
 		except:
@@ -192,19 +191,19 @@ class Parser():
 		except:
 			sys.exit()
 			raise
-	
+
 	def PrintArgs(self):
 		print " \033[31m/!\ ERROR\033[0m: No arguments: wow.py  locale [rangeStart [rangeEnd]]"
 		print "            Example:      wow.py  en_US    15649      150000"
 		print "--------------------------"
-		
+
 	def PrintConfig(self):
 		print " Config:"
 		print "\tLanguage: \033[36m%s\033[0m" % (self.currLocale)
 		print "\tRange Start: \033[36m%i\033[0m" % (self.rangeStart)
 		print "\tRange End: \033[36m%i\033[0m" % (self.rangeEnd)
 		print "--------------------------"
-	
+
 	def PrintError(self, type, message):
 		t = ""
 		if type == "E":
@@ -216,13 +215,7 @@ class Parser():
 		print "\t\t\t\t\t\t\t\t\t\t\t\t\r",
 		print " %s: %s" % (t, message)
 		print "--------------------------"
-		
-	def ReadAPIKey(self, apiKeyFile):
-		if os.path.isfile(apiKeyFile):
-			fa = open(apiKeyFile,'r')
-			self.apiKey = fa.readline()
-			fa.close()
-	
+
 	def Config(self, args):
 		if len(args) >= 2:
 			if args[1] is not None:
@@ -238,29 +231,27 @@ class Parser():
 
 		if self.currLocale == "ko_KR":
 			self.strLen = 28
-			self.baseUrl = 'https://kr.api.battle.net/wow/item/%d'
+			self.baseUrl = 'https://kr.api.blizzard.com/wow/item/%d'
 		if self.currLocale == "zh_TW":
-			self.baseUrl = 'https://tw.api.battle.net/wow/item/%d'
+			self.baseUrl = 'https://tw.api.blizzard.com/wow/item/%d'
 		if self.currLocale == "ru_RU":
 			self.strLen = 28
-		
-		self.ReadAPIKey("apikey.key");
-		
+
 		path = 'ItemLocales/' + self.currLocale + '.lua'
 		init = 'INL_Items.%s = {\n}' % (self.currLocale.replace("_", ""))
 		self.file = File(path)
 		if not self.file.Exists():
 			self.file.Write(init);
-	
-	def RemoveExtraLua(self):	
+
+	def RemoveExtraLua(self):
 		contents = self.file.ReadFile()
-		
+
 		self.removedLua = []
 		self.removedLua.append(contents[:1][0])
 		self.removedLua.append(contents[-1:][0])
-		
+
 		contents = contents[1:-1]
-		
+
 		self.file.WriteLines(contents)
 
 	def RestoreExtraLua(self):
@@ -268,32 +259,32 @@ class Parser():
 
 		contents.insert(0, self.removedLua[0])
 		contents.append(self.removedLua[1])
-		
+
 		self.file.WriteLines(contents)
-	
+
 	def SaveIndexes(self):
 		self.Command = "parser.py %s %i %i" % (self.currLocale, self.lastItemID, self.rangeEnd)
 		print " \033[35mparser.py %s %i %i\033[0m" % (self.currLocale, self.lastItemID, self.rangeEnd)
 		self.dbFile.ReplacePattern("parser.py %s %i %i" % (self.currLocale, self.rangeStart, self.rangeEnd), "parser.py %s %i %i" % (self.currLocale, self.lastItemID, self.rangeEnd))
-	
+
 	def FindInFile(self, item, minI, maxI):
 		contents = self.file.ReadFile()
 		return self.FindInContents(item, minI, maxI, contents)
-	
+
 	def FindInContents(self, item, minI, maxI, contents):
 		guess = int(math.floor(minI + (maxI - minI) / 2))
 		#print (guess, minI, maxI)
-		if maxI >= minI:			
+		if maxI >= minI:
 			guessed_line = contents[guess-1]
 			#print guessed_line[:-1]
 			#print (guess, minI, maxI, guessed_line[:-1])
 			m = re.search('(\d{1,7})', guessed_line)
 			guessed_ID = int(m.group(0))
 			#print(guessed_ID)
-			
+
 			if guessed_ID == item:
 				return [guess, True]
-			
+
 			if guessed_ID < item:
 				#print guessed_ID , "<",  item
 				return self.FindInContents(item, guess + 1, maxI, contents)
@@ -303,58 +294,61 @@ class Parser():
 		else:
 			#print item , "NOT FOUND at pos" , guess
 			return [guess, False]
-	
+
 	def Run(self):
-		import requests, json, datetime
-		
+		reqs = Requests()
+		reqs.GetToken()
+
 		error = False
 		addedItems = 0
-		
+
 		try:
+			import requests, datetime
 			print " \033[32mStarting\033[0m item parser"
 			print "--------------------------"
 
 			self.lastItemID = self.rangeStart
-			
+
 			params = dict(
 				locale=self.currLocale,
-				apikey=self.apiKey
+				access_token=reqs.token
 			)
-			
+
 			self.file.GetNumberOfLines()
 
 			self.RemoveExtraLua()
 			self.file.GetNumberOfLines()
-			
+
 			self.processStarted = True
 			while self.lastItemID < self.rangeEnd-1 and not error:
 				try:
 					#REQUEST AND PARSE ITEMS
 					for itemID in xrange(self.lastItemID, self.rangeEnd):
-					
+
 						self.lastItemID = itemID
 						url = self.baseUrl % (itemID)
-						
-						resp = requests.get(url=url, params=params)
-						data = json.loads(resp.text)
-						
+
+						reqs.MakeRequest(url, params)
+						req_status_code = reqs.GetRequestStatusCode()
+						data = reqs.GetData()
+
 						now = datetime.datetime.now()
 						time = now.strftime('%H:%M:%S')
-						
-						if resp.status_code == 200:
+
+						if req_status_code == 200:
 							if 'name' not in data:
 								print data
 								self.PrintError("E", "No 'name' field in data")
 								print "--------------------------"
 								error = True
 								break
-							
+
 							name = data["name"]
 							name = name.replace('"', '\\"')
-							
+
 							luaString = '  {%i,"%s"},\n' % (itemID, name)
 							luaString = luaString.encode('utf-8')
-							
+
 							result = self.FindInFile(itemID, 1, self.file.lines)
 							exists = result[1]
 
@@ -364,28 +358,28 @@ class Parser():
 								addedItems += 1
 							#else:
 								#TODO: Check if the name changed
-							
+
 							if len(name) > self.strLen+3:
 								name = name[:self.strLen] + "..."
-							
+
 							if exists:
 								print (" %s - \033[32m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
 							else:
 								print (" %s - \033[31m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
 						else:
-							if resp.status_code == 404:
+							if req_status_code == 404:
 								if 'reason' not in data:
 									self.PrintError("E", "404 Error: No reason found")
 									error = True
 									break
 								else:
 									print " %s - \033[33m#%i\033[0m - %s" % (time, itemID, data["reason"].encode('utf-8'))
-							elif resp.status_code == 504:
+							elif req_status_code == 504:
 								self.PrintError("E", "504 Error: Gateway timeout")
 								error = True
 								break
 							else:
-								self.PrintError("E", "%i Error: Unknown error code" % (resp.status_code)) #504
+								self.PrintError("E", "%i Error: Unknown error code" % (req_status_code)) #504
 								error = True
 								break
 				except KeyboardInterrupt:
@@ -405,14 +399,14 @@ class Parser():
 					self.PrintError("E", "Unknown Error")
 					error = True
 					raise
-			
+
 			if not error:
 				self.lastItemID += 1
-				
+
 			if self.lastItemID >= self.rangeEnd-1:
 				self.Continue = False
 				print "--------------------------"
-			
+
 		except KeyboardInterrupt:
 			print "--------------------------"
 			if self.processStarted:
@@ -448,16 +442,70 @@ class Parser():
 
 class Utils():
 	def __init__(self):
+		self.Mute = True
 		pass
 
 	def PlaySound(self, frequency, duration, repetitions):
-		try:
-			import winsound
-			for x in range(1, repetitions+1):
-				winsound.Beep(frequency, duration)
-		except:
-			pass
-	
+		if not self.Mute:
+			try:
+				import winsound
+				for x in range(1, repetitions+1):
+					winsound.Beep(frequency, duration)
+			except:
+				pass
+
+class Requests():
+	def __init__(self):
+		self.client_id_file = "client_id.key"
+		self.client_secret_file = "client_secret.key"
+		self.token = ""
+
+	def GetToken(self):
+		import requests, json
+		url = "https://eu.battle.net/oauth/token"
+
+
+		params = dict(
+			grant_type="client_credentials",
+			client_id=self.ReadClientID(),
+			client_secret=self.ReadClientSecret()
+		)
+
+		resp = requests.get(url=url, params=params)
+		data = json.loads(resp.text)
+
+		if resp.status_code == 200:
+			if 'access_token' not in data:
+				print data
+				self.PrintError("E", "No 'name' field in data")
+				print "--------------------------"
+			self.token = data["access_token"]
+
+	def ReadClientID(self):
+		if os.path.isfile(self.client_id_file):
+			fa = open(self.client_id_file,'r')
+			client_id = fa.readline()
+			fa.close()
+			return client_id
+
+	def ReadClientSecret(self):
+		if os.path.isfile(self.client_secret_file):
+			fa = open(self.client_secret_file,'r')
+			client_secret = fa.readline()
+			fa.close()
+			return client_secret
+
+	def MakeRequest(self, url, params):
+		import requests
+		self.resp = requests.get(url=url, params=params)
+
+	def GetRequestStatusCode(self):
+		return self.resp.status_code
+
+	def GetData(self):
+		import json
+		return json.loads(self.resp.text)
+
 ''' ****************
 	PROGRAM START
 **************** '''
