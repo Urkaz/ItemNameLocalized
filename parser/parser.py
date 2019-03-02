@@ -442,7 +442,7 @@ class Parser():
 
 class Utils():
 	def __init__(self):
-		self.Mute = True
+		self.Mute = False
 		pass
 
 	def PlaySound(self, frequency, duration, repetitions):
