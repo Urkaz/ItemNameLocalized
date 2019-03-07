@@ -8,16 +8,3 @@ parser.py ru_RU 140000 190000
 parser.py ko_KR 140000 190000
 parser.py zh_TW 140000 190000
 parser.py es_MX 140000 190000
-
-
- - PENDING -
-parser.py en_US 41758 190000
-parser.py es_ES 37646 190000
-parser.py de_DE 37675 190000
-parser.py fr_FR 37666 190000
-parser.py it_IT 1 190000
-parser.py pt_BR 1 190000
-parser.py ru_RU 1 190000
-parser.py ko_KR 1 190000
-parser.py zh_TW 1 190000
-parser.py es_MX 1 190000
