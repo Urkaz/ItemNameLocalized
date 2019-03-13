@@ -11,16 +11,16 @@ The addon uses 25-30 MB of memory since all the item names of the selected local
 All names and IDs are obtained from the official API, if some item is not localized in some language, tell me and I will try to add it as soon as possible.
 
 ### Locales supported
-* enUS (8.0.1)
-* esES (8.0.1)
-* esMX (8.0.1)
-* frFR (8.0.1)
-* deDE (8.0.1)
-* itIT (8.0.1)
-* ptBR (8.0.1)
-* ruRU (8.0.1)
-* koKR (8.0.1)
-* zhTW (8.0.1)
+* enUS (8.1.5)
+* esES (8.1.5)
+* esMX (8.1.5)
+* frFR (8.1.5)
+* deDE (8.1.5)
+* itIT (8.1.5)
+* ptBR (8.1.5)
+* ruRU (8.1.5)
+* koKR (8.1.5)
+* zhTW (8.1.5)
 
 ### Current features
 * Add the item name on the tooltip title.

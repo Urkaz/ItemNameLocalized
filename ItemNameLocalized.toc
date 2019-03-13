@@ -1,10 +1,10 @@
-## Interface: 80000
+## Interface: 80100
 ## Title: Item Name Localized
 ## Notes: Show the name of the items in a different language
 ## Author: Urkaz
-## Version: 1.6
+## Version: 1.7
 ## SavedVariablesPerCharacter: INL_Settings
-## X-Curse-Packaged-Version: 1.6
+## X-Curse-Packaged-Version: 1.7
 ## X-Curse-Project-Name: Item Name Localized
 ## X-Curse-Project-ID: item-name-localized
 
