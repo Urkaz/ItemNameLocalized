@@ -1,7 +1,7 @@
 #!/bin/bash
 ADDON_MAIN_FOLDER="ItemNameLocalized"
-ADDON_VERSION="v1.7"
-GAME_VERSION="8.1.5"
+ADDON_VERSION="v1.8"
+GAME_VERSION="8.2.0"
 
 FOLDERS=("AddonLocale" "ItemLocales")
 FILES=("Core.lua" "Preload.lua" "ItemNameLocalized.toc" "CHANGELOG.md" "README.md" "LICENSE")

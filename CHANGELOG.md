@@ -1,3 +1,6 @@
+### v1.8
+* Added 8.2 items.
+
 ### v1.7
 * Added 8.1.5 items.
 * Fixed old items and added some missing.
