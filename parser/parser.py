@@ -310,6 +310,8 @@ class Parser():
 		self.file.ReplacePattern(contents[lineIndex], newText)
 
 	def Run(self):
+		import json
+
 		reqs = Requests()
 		reqs.GetToken()
 
@@ -346,70 +348,77 @@ class Parser():
 
 						reqs.MakeRequest(url, params)
 						req_status_code = reqs.GetRequestStatusCode()
-						data = reqs.GetData()
 
 						now = datetime.datetime.now()
 						time = now.strftime('%H:%M:%S')
 
-						if req_status_code == 200:
-							if 'name' not in data:
-								print data
-								self.PrintError("E", "No 'name' field in data")
-								print "--------------------------"
-								error = True
-								break
+						data = reqs.GetData()
+						if data.encode('utf-8') != "Downstream Error":
+							data = json.loads(data)
 
-							name = data["name"]
-							name = name.replace('"', '\\"')
+							if req_status_code == 200:
+								if 'name' not in data:
+									print data
+									self.PrintError("E", "No 'name' field in data")
+									print "--------------------------"
+									error = True
+									break
 
-							luaString = '  {%i,"%s"},\n' % (itemID, name)
-							luaString = luaString.encode('utf-8')
+								name = data["name"]
+								name = name.replace('"', '\\"')
+								name = name.replace('\r\n', '')
+								name = name.replace('\n', '')
 
-							result = self.FindInFile(itemID, 1, self.file.lines)
-							exists = result[1]
+								luaString = '  {%i,"%s"},\n' % (itemID, name)
+								luaString = luaString.encode('utf-8')
 
-							if not exists:
-								self.file.InsertInLine(result[0], luaString)
-								self.file.lines += 1
-								addedItems += 1
-							else:
-								current_name = self.GetNameFromLine(result[0]-1)
-								new_name = '"%s"' % (name)
-								current_name = current_name.encode('utf-8')
-								new_name = new_name.encode('utf-8')
-								if current_name != new_name:
-									isReplaced = True
-									self.ReplaceNameFromLine(result[0]-1, luaString)
-									replacedItems += 1
+								result = self.FindInFile(itemID, 1, self.file.lines)
+								exists = result[1]
+
+								if not exists:
+									self.file.InsertInLine(result[0], luaString)
+									self.file.lines += 1
+									addedItems += 1
 								else:
-									isReplaced = False
+									current_name = self.GetNameFromLine(result[0]-1)
+									new_name = '"%s"' % (name)
+									current_name = current_name.encode('utf-8')
+									new_name = new_name.encode('utf-8')
+									if current_name != new_name:
+										isReplaced = True
+										self.ReplaceNameFromLine(result[0]-1, luaString)
+										replacedItems += 1
+									else:
+										isReplaced = False
 
-							if len(name) > self.strLen+3:
-								name = name[:self.strLen] + "..."
+								if len(name) > self.strLen+3:
+									name = name[:self.strLen] + "..."
 
-							if exists:
-								if isReplaced:
-									print (" %s - \033[36m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
+								if exists:
+									if isReplaced:
+										print (" %s - \033[36m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
+									else:
+										print (" %s - \033[32m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
 								else:
-									print (" %s - \033[32m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
+									print (" %s - \033[31m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
 							else:
-								print (" %s - \033[31m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
-						else:
-							if req_status_code == 404:
-								if 'reason' not in data:
-									self.PrintError("E", "404 Error: No reason found")
+								if req_status_code == 404:
+									if 'reason' not in data:
+										self.PrintError("E", "404 Error: No reason found")
+										error = True
+										break
+									else:
+										print " %s - \033[33m#%i\033[0m - %s" % (time, itemID, data["reason"].encode('utf-8'))
+								elif req_status_code == 504:
+									self.PrintError("E", "504 Error: Gateway timeout")
 									error = True
 									break
 								else:
-									print " %s - \033[33m#%i\033[0m - %s" % (time, itemID, data["reason"].encode('utf-8'))
-							elif req_status_code == 504:
-								self.PrintError("E", "504 Error: Gateway timeout")
-								error = True
-								break
-							else:
-								self.PrintError("E", "%i Error: Unknown error code" % (req_status_code)) #504
-								error = True
-								break
+									self.PrintError("E", "%i Error: Unknown error code" % (req_status_code)) #504
+									error = True
+									break
+						else:
+							print " %s - \033[33m#%i\033[0m - %s" % (time, itemID, "Downstream Error")
 				except KeyboardInterrupt:
 					error = True
 					raise
@@ -535,8 +544,7 @@ class Requests():
 		return self.resp.status_code
 
 	def GetData(self):
-		import json
-		return json.loads(self.resp.text)
+		return self.resp.text
 
 ''' ****************
 	PROGRAM START
