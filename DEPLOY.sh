@@ -34,4 +34,4 @@ echo "--------------------------"
 echo "> Cleaning"
 rm -rf ./$ADDON_MAIN_FOLDER
 echo "--------------------------"
-read -p "> Deploy finished. Press [Enter]..."
+read -p "> Deployment finished. Press [Enter]..."
