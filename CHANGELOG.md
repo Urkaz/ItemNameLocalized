@@ -1,5 +1,5 @@
 ### v1.8
-* Added 8.2 items.
+* Added 8.2.5 items.
 
 ### v1.7
 * Added 8.1.5 items.
