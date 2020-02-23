@@ -1,27 +1,21 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#python 2.7
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 import math
 import sys, os
 from os import remove, close, path, name
 import re
 
 # check dependent modules
-import imp
-try:
-	imp.find_module('requests')
-except:
-	print '"requests" module not found, install using the command "pip install requests"'
+from importlib import util
+
+req_spec = util.find_spec("requests")
+req_found = req_spec is not None
+if (not req_found):
+	print('"requests" module not found, install using the command "pip install requests"')
 	sys.exit()
 
-try:
-	imp.find_module('colorama')
-except:
-	print '"colorama" module not found, install using the command "pip install colorama"'
+col_spec = util.find_spec("colorama")
+col_found = col_spec is not None
+if (not col_found):
+	print('"colorama" module not found, install using the command "pip install colorama"')
 	sys.exit()
 # end check modules
 
@@ -98,11 +92,11 @@ class File():
 		if os.path.exists(self.path):
 			try:
 				os.rename(self.path, self.path)
-				#print 'Access on file "' + self.path +'" is available!'
+				#print('Access on file "' + self.path +'" is available!')
 				return True
 			except OSError as e:
 				pass
-				#print 'Access-error on file "' + self.path + '"! \n' + str(e)
+				#print('Access-error on file "' + self.path + '"! \n' + str(e))
 		return False
 
 	def GetNumberOfLines(self):
@@ -136,9 +130,9 @@ class Parser():
 			self.osSleep.Inhibit()
 
 		# INIT
-		print "--------------------------"
-		print " \033[33mItemNameLocalized WoW Api Parser\033[0m"
-		print "--------------------------"
+		print("--------------------------")
+		print(" \033[33mItemNameLocalized WoW Api Parser\033[0m")
+		print("--------------------------")
 
 		self.currLocale = ''
 		self.rangeStart = 25
@@ -185,7 +179,7 @@ class Parser():
 			if self.osSleep:
 				self.osSleep.Uninhibit()
 			if self.Continue:
-				print (self.Command)
+				print(self.Command)
 				if self.Command != "":
 					os.system(self.Command)
 			else:
@@ -197,16 +191,16 @@ class Parser():
 			raise
 
 	def PrintArgs(self):
-		print " \033[31m/!\ ERROR\033[0m: No arguments: wow.py  locale [rangeStart [rangeEnd]]"
-		print "            Example:      wow.py  en_US    15649      150000"
-		print "--------------------------"
+		print(" \033[31m/!\ ERROR\033[0m: No arguments: wow.py  locale [rangeStart [rangeEnd]]")
+		print("            Example:      wow.py  en_US    15649      150000")
+		print("--------------------------")
 
 	def PrintConfig(self):
-		print " Config:"
-		print "\tLanguage: \033[36m%s\033[0m" % (self.currLocale)
-		print "\tRange Start: \033[36m%i\033[0m" % (self.rangeStart)
-		print "\tRange End: \033[36m%i\033[0m" % (self.rangeEnd)
-		print "--------------------------"
+		print(" Config:")
+		print("\tLanguage: \033[36m%s\033[0m" % (self.currLocale))
+		print("\tRange Start: \033[36m%i\033[0m" % (self.rangeStart))
+		print("\tRange End: \033[36m%i\033[0m" % (self.rangeEnd))
+		print("--------------------------")
 
 	def PrintError(self, type, message):
 		t = ""
@@ -216,9 +210,8 @@ class Parser():
 		elif type == "W":
 			t = "\033[33m/!\\ WARNING\033[0m"
 			self.utils.PlaySound(200, 200, 2)
-		print "\t\t\t\t\t\t\t\t\t\t\t\t\r",
-		print " %s: %s" % (t, message)
-		print "--------------------------"
+		print(" %s: %s" % (t, message))
+		print("--------------------------")
 
 	def Config(self, args):
 		if len(args) >= 2:
@@ -267,9 +260,10 @@ class Parser():
 		self.file.WriteLines(contents)
 
 	def SaveIndexes(self):
-		self.Command = "parser.py %s %i %i" % (self.currLocale, self.lastItemID, self.rangeEnd)
-		print " \033[35mparser.py %s %i %i\033[0m" % (self.currLocale, self.lastItemID, self.rangeEnd)
-		self.dbFile.ReplacePattern("parser.py %s %i %i" % (self.currLocale, self.rangeStart, self.rangeEnd), "parser.py %s %i %i" % (self.currLocale, self.lastItemID, self.rangeEnd))
+		dbFilename = "parser";
+		self.Command = "%s.py %s %i %i" % (dbFilename, self.currLocale, self.lastItemID, self.rangeEnd)
+		print(" \033[35m%s.py %s %i %i\033[0m" % (dbFilename, self.currLocale, self.lastItemID, self.rangeEnd))
+		self.dbFile.ReplacePattern("%s.py %s %i %i" % (dbFilename, self.currLocale, self.rangeStart, self.rangeEnd), "%s.py %s %i %i" % (dbFilename, self.currLocale, self.lastItemID, self.rangeEnd))
 
 	def FindInFile(self, item, minI, maxI):
 		contents = self.file.ReadFile()
@@ -322,8 +316,8 @@ class Parser():
 
 		try:
 			import requests, datetime
-			print " \033[32mStarting\033[0m item parser"
-			print "--------------------------"
+			print(" \033[32mStarting\033[0m item parser")
+			print("--------------------------")
 
 			self.lastItemID = self.rangeStart
 
@@ -341,7 +335,7 @@ class Parser():
 			while self.lastItemID < self.rangeEnd-1 and not error:
 				try:
 					#REQUEST AND PARSE ITEMS
-					for itemID in xrange(self.lastItemID, self.rangeEnd):
+					for itemID in range(self.lastItemID, self.rangeEnd):
 
 						self.lastItemID = itemID
 						url = self.baseUrl % (itemID)
@@ -358,9 +352,9 @@ class Parser():
 
 							if req_status_code == 200:
 								if 'name' not in data:
-									print data
+									print(data)
 									self.PrintError("E", "No 'name' field in data")
-									print "--------------------------"
+									print("--------------------------")
 									error = True
 									break
 
@@ -370,7 +364,7 @@ class Parser():
 								name = name.replace('\n', '')
 
 								luaString = '  {%i,"%s"},\n' % (itemID, name)
-								luaString = luaString.encode('utf-8')
+								#luaString = luaString.encode('utf-8')
 
 								result = self.FindInFile(itemID, 1, self.file.lines)
 								exists = result[1]
@@ -396,11 +390,11 @@ class Parser():
 
 								if exists:
 									if isReplaced:
-										print (" %s - \033[36m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
+										print(" %s - \033[36m#%i\033[0m - [%s]" % (time, itemID, name))
 									else:
-										print (" %s - \033[32m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
+										print(" %s - \033[32m#%i\033[0m - [%s]" % (time, itemID, name))
 								else:
-									print (" %s - \033[31m#%i\033[0m - [%s]" % (time, itemID, name)).encode('utf-8')
+									print(" %s - \033[31m#%i\033[0m - [%s]" % (time, itemID, name))
 							else:
 								if req_status_code == 404:
 									if 'reason' not in data:
@@ -408,7 +402,7 @@ class Parser():
 										error = True
 										break
 									else:
-										print " %s - \033[33m#%i\033[0m - %s" % (time, itemID, data["reason"].encode('utf-8'))
+										print(" %s - \033[33m#%i\033[0m - %s" % (time, itemID, data["reason"]))
 								elif req_status_code == 504:
 									self.PrintError("E", "504 Error: Gateway timeout")
 									error = True
@@ -418,7 +412,7 @@ class Parser():
 									error = True
 									break
 						else:
-							print " %s - \033[33m#%i\033[0m - %s" % (time, itemID, "Downstream Error")
+							print(" %s - \033[33m#%i\033[0m - %s" % (time, itemID, "Downstream Error"))
 				except KeyboardInterrupt:
 					error = True
 					raise
@@ -432,7 +426,7 @@ class Parser():
 					error = True
 					raise
 				except:
-					print "--------------------------"
+					print("--------------------------")
 					self.PrintError("E", "Unknown Error")
 					error = True
 					raise
@@ -442,40 +436,40 @@ class Parser():
 
 			if self.lastItemID >= self.rangeEnd-1:
 				self.Continue = False
-				print "--------------------------"
+				print("--------------------------")
 
 		except KeyboardInterrupt:
-			print "--------------------------"
+			print("--------------------------")
 			if self.processStarted:
 				self.PrintError("W", "Process interrupted by the user")
 			else:
 				self.PrintError("W", "Process interrupted by the user before starting")
 			self.Continue = False
 		except requests.exceptions.ConnectionError:
-			print "--------------------------"
+			print("--------------------------")
 			self.PrintError("E", "There was a problem with the Internet connection.")
 		except IOError:
-			print "--------------------------"
+			print("--------------------------")
 			self.PrintError("E", "There was a problem with the file access.")
 		except ValueError:
-			print "--------------------------"
+			print("--------------------------")
 			self.PrintError("E", "No JSON object could be decoded")
 		except:
-			print "--------------------------"
+			print("--------------------------")
 			self.PrintError("E", "Unknown Error")
 			raise
 		finally:
 			self.RestoreExtraLua()
-			print " New indexes saved:"
+			print(" New indexes saved:")
 			self.SaveIndexes()
-			print "--------------------------"
-			print " Stats:"
-			print "\tItems parsed: \033[36m%i\033[0m" % (self.lastItemID - self.rangeStart)
-			print "\tNew items added: \033[36m%i\033[0m" % (addedItems)
-			print "\tReplaced items: \033[36m%i\033[0m" % (replacedItems)
-			print "--------------------------"
-			print " \033[32mFinished\033[0m parsing \033[36m%s\033[0m" % (self.currLocale)
-			print "--------------------------"
+			print("--------------------------")
+			print(" Stats:")
+			print("\tItems parsed: \033[36m%i\033[0m" % (self.lastItemID - self.rangeStart))
+			print("\tNew items added: \033[36m%i\033[0m" % (addedItems))
+			print("\tReplaced items: \033[36m%i\033[0m" % (replacedItems))
+			print("--------------------------")
+			print(" \033[32mFinished\033[0m parsing \033[36m%s\033[0m" % (self.currLocale))
+			print("--------------------------")
 			self.utils.PlaySound(2000, 250, 1)
 
 class Utils():
@@ -514,12 +508,12 @@ class Requests():
 
 			if resp.status_code == 200:
 				if 'access_token' not in data:
-					print data
+					print(data)
 					self.PrintError("E", "No 'name' field in data")
-					print "--------------------------"
+					print("--------------------------")
 				self.token = data["access_token"]
 		except ValueError:
-			print "--------------------------"
+			print("--------------------------")
 			self.PrintError("E", "No JSON TOKEN object could be decoded")
 
 	def ReadClientID(self):

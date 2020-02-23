@@ -27,8 +27,5 @@ All names and IDs are obtained from the official API, if some item is not locali
 * Add the item name on a single extra line on the tooltip.
 * Generate Wowhead URLs of any item with a command (/inl link [shift+click one or more items]).
 
-### TODO
-* Maybe move each language into a separate add-on module with an individual download to reduce the total size or something like that? 
-
 ### Known issues
 * Sometimes Korean items lose the quality color in the tooltip name.
