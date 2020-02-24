@@ -48,23 +48,23 @@ class File():
 		return os.path.isfile(self.path)
 
 	def Write(self, text):
-		f = open(self.path,'w')
+		f = open(self.path,'w', encoding="utf8")
 		f.write(text)
 		f.close()
 
 	def WriteAppend(self, text):
-		f = open(self.path,'a')
+		f = open(self.path,'a', encoding="utf8")
 		f.write(text)
 		f.close()
 
 	def ReadFile(self):
-		f = open(self.path, "r")
+		f = open(self.path, "r", encoding="utf8")
 		contents = f.readlines()
 		f.close()
 		return contents
 
 	def WriteLines(self, linesArray):
-		f = open(self.path,'w')
+		f = open(self.path,'w', encoding="utf8")
 		for line in linesArray:
 			f.write(line)
 		f.close()
@@ -78,8 +78,8 @@ class File():
 
 		#Create temp file
 		fh, abs_path = mkstemp()
-		with open(abs_path,'w') as new_file:
-			with open(self.path) as old_file:
+		with open(abs_path,'w', encoding="utf8") as new_file:
+			with open(self.path, encoding="utf8") as old_file:
 				for line in old_file:
 					new_file.write(line.replace(pattern, subst))
 		close(fh)
@@ -100,7 +100,7 @@ class File():
 		return False
 
 	def GetNumberOfLines(self):
-		f = open(self.path, 'r')
+		f = open(self.path, 'r', encoding="utf8")
 		lines = 0
 		for line in f:
 			lines += 1
@@ -109,7 +109,7 @@ class File():
 		return lines
 
 	def InsertInLine(self, index, value):
-		f = open(self.path, "r")
+		f = open(self.path, "r", encoding="utf8")
 		contents = f.readlines()
 		f.close()
 
@@ -277,6 +277,8 @@ class Parser():
 			#print guessed_line[:-1]
 			#print (guess, minI, maxI, guessed_line[:-1])
 			m = re.search('(\d{1,7})', guessed_line)
+			if m is None:
+				return [1, False]
 			guessed_ID = int(m.group(0))
 			#print(guessed_ID)
 
@@ -295,9 +297,10 @@ class Parser():
 
 	def GetNameFromLine(self, lineIndex):
 		contents = self.file.ReadFile()
-		m = re.search('"([^"]*)"', contents[lineIndex])
-		name = m.group(0)
-		return name
+		m = re.search(r'"(.+?)(?<!\\)"', contents[lineIndex])
+		if(m is not None):
+			return m.group(0)
+		return '""'
 
 	def ReplaceNameFromLine(self, lineIndex, newText):
 		contents = self.file.ReadFile()
@@ -347,7 +350,7 @@ class Parser():
 						time = now.strftime('%H:%M:%S')
 
 						data = reqs.GetData()
-						if data.encode('utf-8') != "Downstream Error":
+						if data != "Downstream Error":
 							data = json.loads(data)
 
 							if req_status_code == 200:
@@ -364,7 +367,6 @@ class Parser():
 								name = name.replace('\n', '')
 
 								luaString = '  {%i,"%s"},\n' % (itemID, name)
-								#luaString = luaString.encode('utf-8')
 
 								result = self.FindInFile(itemID, 1, self.file.lines)
 								exists = result[1]
@@ -376,8 +378,6 @@ class Parser():
 								else:
 									current_name = self.GetNameFromLine(result[0]-1)
 									new_name = '"%s"' % (name)
-									current_name = current_name.encode('utf-8')
-									new_name = new_name.encode('utf-8')
 									if current_name != new_name:
 										isReplaced = True
 										self.ReplaceNameFromLine(result[0]-1, luaString)
@@ -453,7 +453,7 @@ class Parser():
 			self.PrintError("E", "There was a problem with the file access.")
 		except ValueError:
 			print("--------------------------")
-			self.PrintError("E", "No JSON object could be decoded")
+			self.PrintError("E", "No JSON object could be decoded // ValueError")
 		except:
 			print("--------------------------")
 			self.PrintError("E", "Unknown Error")
@@ -518,14 +518,14 @@ class Requests():
 
 	def ReadClientID(self):
 		if os.path.isfile(self.client_id_file):
-			fa = open(self.client_id_file,'r')
+			fa = open(self.client_id_file,'r', encoding="utf8")
 			client_id = fa.readline()
 			fa.close()
 			return client_id
 
 	def ReadClientSecret(self):
 		if os.path.isfile(self.client_secret_file):
-			fa = open(self.client_secret_file,'r')
+			fa = open(self.client_secret_file,'r', encoding="utf8")
 			client_secret = fa.readline()
 			fa.close()
 			return client_secret
