@@ -51,7 +51,7 @@ class File():
 		return os.path.isfile(self.path)
 
 	def ReadFile(self):
-		f = open(self.path, "r")
+		f = open(self.path, "r", encoding="utf8")
 		contents = f.readlines()
 		f.close()
 		return contents
@@ -65,8 +65,8 @@ class File():
 
 		#Create temp file
 		fh, abs_path = mkstemp()
-		with open(abs_path,'w') as new_file:
-			with open(self.path) as old_file:
+		with open(abs_path,'w', encoding="utf8") as new_file:
+			with open(self.path, encoding="utf8") as old_file:
 			
 				for lineno, line in enumerate(old_file, 1):
 					if lineno != lineNum:
@@ -89,13 +89,39 @@ class File():
 		return False
 	
 	def GetNumberOfLines(self):
-		f = open(self.path, 'r')
+		f = open(self.path, 'r', encoding="utf8")
 		lines = 0
 		for line in f:
 			lines += 1
 		f.close()
 		self.lines = lines
 		return lines
+	
+	def WriteLines(self, linesArray):
+		f = open(self.path,'w', encoding="utf8")
+		for line in linesArray:
+			f.write(line)
+		f.close()
+		
+	def Splitter(self):
+		splitLen = 100000
+		outputBase = self.path[:-4]
+		
+		input = open(self.path, 'r', encoding="utf8")
+		
+		count = 0
+		at = 0
+		dest = None
+		
+		for line in input:
+			if count % splitLen == 0:
+				if dest: dest.close()
+				dest = open(outputBase + "_" + str(at) + '.lua', 'w', encoding="utf8")
+				at += 1
+			dest.write(line)
+			count += 1
+		
+		return at
 	
 class Parser():
 	def __init__(self, args):
@@ -113,22 +139,13 @@ class Parser():
 		print(" \033[33mItemNameLocalized Locales Fixer\033[0m")
 		print("--------------------------")
 		
-		self.localesList = ["en_US","es_ES","es_MX","de_DE","fr_FR","it_IT","pt_BR","ru_RU","ko_KR","zh_TW"]
-		self.currLocaleFile = None
-		
-		self.dbFile = File("IDs_list.txt")
-		self.dbFile.GetNumberOfLines()
+		self.currLocale = ''
+		self.file = None
 		
 		self.removedLua = []
-		self.processDuplicates = False
-		
-		#Check files
-		if not self.dbFile.Exists():
-			self.PrintError("E", 'File "IDs_list.txt" does not exist.')
-			self.Exit()
 		
 		#Config
-		if len(args) <= 1: 
+		if len(args) <= 1:
 			self.PrintArgs()
 			self.Exit()
 		else:
@@ -183,19 +200,39 @@ class Parser():
 			self.utils.PlaySound(200, 200, 2)
 		print(" %s: %s" % (t, message))
 		print("--------------------------")
-	
-	'''	def ReadAPIKey(self, apiKeyFile):
-		if os.path.isfile(apiKeyFile):
-			fa = open(apiKeyFile,'r')
-			self.apiKey = fa.readline()
-			fa.close()
-	'''
-	
+
 	def Config(self, args):
 		if len(args) >= 2:
 			if args[1] is not None:
-				self.processDuplicates = args[1] == 'True'
+				self.currLocale = args[1]
 
+	def RemoveExtraLua(self):	
+		contents = self.file.ReadFile()
+		
+		self.removedLua = []
+		self.removedLua.append(contents[:1][0])
+		self.removedLua.append(contents[-1:][0])
+		
+		contents = contents[1:-1]
+		
+		self.file.WriteLines(contents)
+		
+	def RestoreExtraLua(self):
+		contents = self.file.ReadFile()
+
+		contents.insert(0, self.removedLua[0])
+		contents.append(self.removedLua[1])
+		
+		self.file.WriteLines(contents)
+		
+	def RestoreExtraLuaToSplits(self, file, num):
+		contents = file.ReadFile()
+
+		contents.insert(0, self.removedLua[0][:-5] + "[" + str(num) + "]" + self.removedLua[0][-5:])
+		contents.append(self.removedLua[1])
+		
+		file.WriteLines(contents)
+				
 	def FindInContents(self, item, minI, maxI, contents):
 		guess = int(math.floor(minI + (maxI - minI) / 2))
 		#print (guess, minI, maxI)
@@ -221,46 +258,54 @@ class Parser():
 			return [guess, False]
 	
 	def Run(self):
-		import datetime
+		path = 'ItemLocales/' + self.currLocale + '.lua'
+		self.file = File(path)
 		
-		if self.processDuplicates:
-			self.FixDuplicates()
+		print(path)
+		print(self.file.Exists())
+		if not self.file.Exists():
+			return
+		
+		self.FixDuplicates()
+			
+		self.RemoveExtraLua()
+		numSplits = self.file.Splitter()
+		self.RestoreExtraLua()
+		for x in range(numSplits):
+			splitN = File(self.file.path[:-4] + "_" + str(x) + '.lua')
+			self.RestoreExtraLuaToSplits(splitN, x)
+		print("File split in " + str(numSplits) + " files.")
 
 	def FixDuplicates(self):
-		for locale in self.localesList:
-			duplicates = []
-			itemsList = []
-			path = 'ItemLocales/' + locale + '.lua'
-			self.currLocaleFile = File(path)
-			if not self.currLocaleFile.Exists():
-				return
+		duplicates = []
+		itemsList = []
+		
+		print("Processing duplicates of " + self.currLocale)
+		contents = self.file.ReadFile()
+		
+		index = 0
+		size = float(len(contents))
 			
-			print("Processing duplicates of " + locale)
-			contents = self.currLocaleFile.ReadFile()
-			
-			index = 0
-			size = float(len(contents))
+		for line in contents:
+			ids = re.search(r'(\d{1,7})', line)
+			if not ids == None:
+				itemId = ids.group(0)
 				
-			for line in contents:
-				ids = re.search(r'(\d{1,7})', line)
-				if not ids == None:
-					itemId = ids.group(0)
+				exists = False
+				if len(itemsList) > 0:
+					result = self.FindInContents(int(itemId), 1, len(itemsList), itemsList)
+					exists = result[1]
 					
-					exists = False
-					if len(itemsList) > 0:
-						result = self.FindInContents(int(itemId), 1, len(itemsList), itemsList)
-						exists = result[1]
-						
-					if not exists:
-						itemsList.append(itemId)
-					else:
-						duplicates.append(itemId)
-						self.currLocaleFile.DeleteLine(result[0]+1)
-						
-				index += 1
-				print("\r %f %%" % (index * 100 / size))
-			print("")
-			print("Duplicates:", duplicates)
+				if not exists:
+					itemsList.append(itemId)
+				else:
+					duplicates.append(itemId)
+					self.file.DeleteLine(result[0]+1)
+					
+			index += 1
+			print("\r %f %%" % (index * 100 / size))
+		print("")
+		print("Duplicates:", duplicates)
 
 class Utils():
 	def __init__(self):
