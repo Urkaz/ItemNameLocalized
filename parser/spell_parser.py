@@ -235,7 +235,7 @@ class Parser():
 			self.strLen = 28
 
 		path = 'SpellLocales/' + self.currLocale + '.lua'
-		init = 'INL_Spell.%s = {\n}' % (self.currLocale.replace("_", ""))
+		init = 'INL_Spells.%s = {\n}' % (self.currLocale.replace("_", ""))
 		self.file = File(path)
 		if not self.file.Exists():
 			self.file.Write(init);
