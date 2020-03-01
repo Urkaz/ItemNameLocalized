@@ -261,11 +261,14 @@ class Parser():
 		path = 'ItemLocales/' + self.currLocale + '.lua'
 		self.file = File(path)
 		
-		print(path)
-		print(self.file.Exists())
 		if not self.file.Exists():
 			return
 		
+		print("Processing duplicates of " + self.currLocale + " [1/3]")
+		self.FixDuplicates()
+		print("Processing duplicates of " + self.currLocale + " [2/3]")
+		self.FixDuplicates()
+		print("Processing duplicates of " + self.currLocale + " [3/3]")
 		self.FixDuplicates()
 			
 		self.RemoveExtraLua()
@@ -274,13 +277,34 @@ class Parser():
 		for x in range(numSplits):
 			splitN = File(self.file.path[:-4] + "_" + str(x) + '.lua')
 			self.RestoreExtraLuaToSplits(splitN, x)
-		print("File split in " + str(numSplits) + " files.")
+		print("ItemLocales File split in " + str(numSplits) + " files.")
+		
+		path = 'SpellLocales/' + self.currLocale + '.lua'
+		self.file = File(path)
+		
+		if not self.file.Exists():
+			return
+			
+		print("Processing duplicates of " + self.currLocale + " [1/3]")
+		self.FixDuplicates()
+		print("Processing duplicates of " + self.currLocale + " [2/3]")
+		self.FixDuplicates()
+		print("Processing duplicates of " + self.currLocale + " [3/3]")
+		self.FixDuplicates()
+		
+		self.RemoveExtraLua()
+		numSplits = self.file.Splitter()
+		self.RestoreExtraLua()
+		for x in range(numSplits):
+			splitN = File(self.file.path[:-4] + "_" + str(x) + '.lua')
+			self.RestoreExtraLuaToSplits(splitN, x)
+		print("SpellLocales File split in " + str(numSplits) + " files.")
+			
 
 	def FixDuplicates(self):
 		duplicates = []
 		itemsList = []
 		
-		print("Processing duplicates of " + self.currLocale)
 		contents = self.file.ReadFile()
 		
 		index = 0
@@ -303,7 +327,8 @@ class Parser():
 					self.file.DeleteLine(result[0]+1)
 					
 			index += 1
-			print("\r %f %%" % (index * 100 / size))
+			sys.stdout.write("\r %f %%" % (index * 100 / size))
+			sys.stdout.flush()
 		print("")
 		print("Duplicates:", duplicates)
 
