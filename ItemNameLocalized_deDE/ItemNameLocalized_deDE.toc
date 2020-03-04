@@ -1,0 +1,15 @@
+## Interface: 80300
+## Title: ItemNameLocalized_deDE
+## Notes: Module for Item Name Localized with de_DE localizations
+## Author: Urkaz
+## Version: 2.0
+## Dependencies: ItemNameLocalized_Core
+
+ItemLocales/de_DE_1.lua
+ItemLocales/de_DE_2.lua
+
+SpellLocales/de_DE_1.lua
+SpellLocales/de_DE_2.lua
+SpellLocales/de_DE_3.lua
+
+Core.lua

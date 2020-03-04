@@ -110,7 +110,7 @@ class File():
 		input = open(self.path, 'r', encoding="utf8")
 		
 		count = 0
-		at = 0
+		at = 1
 		dest = None
 		
 		for line in input:
@@ -264,20 +264,16 @@ class Parser():
 		if not self.file.Exists():
 			return
 		
-		print("Processing duplicates of " + self.currLocale + " [1/3]")
-		self.FixDuplicates()
-		print("Processing duplicates of " + self.currLocale + " [2/3]")
-		self.FixDuplicates()
-		print("Processing duplicates of " + self.currLocale + " [3/3]")
+		print("Processing duplicates of " + self.currLocale)
 		self.FixDuplicates()
 			
 		self.RemoveExtraLua()
 		numSplits = self.file.Splitter()
 		self.RestoreExtraLua()
-		for x in range(numSplits):
-			splitN = File(self.file.path[:-4] + "_" + str(x) + '.lua')
-			self.RestoreExtraLuaToSplits(splitN, x)
-		print("ItemLocales File split in " + str(numSplits) + " files.")
+		for x in range(numSplits-1):
+			splitN = File(self.file.path[:-4] + "_" + str(x+1) + '.lua')
+			self.RestoreExtraLuaToSplits(splitN, x+1)
+		print("ItemLocales File split in " + str(numSplits-1) + " files.")
 		
 		path = 'SpellLocales/' + self.currLocale + '.lua'
 		self.file = File(path)
@@ -285,20 +281,16 @@ class Parser():
 		if not self.file.Exists():
 			return
 			
-		print("Processing duplicates of " + self.currLocale + " [1/3]")
-		self.FixDuplicates()
-		print("Processing duplicates of " + self.currLocale + " [2/3]")
-		self.FixDuplicates()
-		print("Processing duplicates of " + self.currLocale + " [3/3]")
+		print("Processing duplicates of " + self.currLocale)
 		self.FixDuplicates()
 		
 		self.RemoveExtraLua()
 		numSplits = self.file.Splitter()
 		self.RestoreExtraLua()
-		for x in range(numSplits):
-			splitN = File(self.file.path[:-4] + "_" + str(x) + '.lua')
-			self.RestoreExtraLuaToSplits(splitN, x)
-		print("SpellLocales File split in " + str(numSplits) + " files.")
+		for x in range(numSplits-1):
+			splitN = File(self.file.path[:-4] + "_" + str(x+1) + '.lua')
+			self.RestoreExtraLuaToSplits(splitN, x+1)
+		print("SpellLocales File split in " + str(numSplits-1) + " files.")
 			
 
 	def FixDuplicates(self):

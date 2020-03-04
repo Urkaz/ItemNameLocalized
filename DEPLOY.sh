@@ -1,37 +1,108 @@
 #!/bin/bash
-ADDON_MAIN_FOLDER="ItemNameLocalized"
-ADDON_VERSION="v1.8"
-GAME_VERSION="8.2.5"
 
-FOLDERS=("AddonLocale" "ItemLocales")
-FILES=("Core.lua" "Preload.lua" "ItemNameLocalized.toc" "CHANGELOG.md" "README.md" "LICENSE")
-FINAL_FILE="${ADDON_MAIN_FOLDER}_${ADDON_VERSION}_wow${GAME_VERSION}.zip"
+ADDON_VERSION="v2.0"
+GAME_VERSION="8.3.0"
+
+FOLDERS=("ItemNameLocalized_Core" "ItemNameLocalized_esES" "ItemNameLocalized_deDE" "ItemNameLocalized_esMX" "ItemNameLocalized_frFR" "ItemNameLocalized_itIT" "ItemNameLocalized_ptBR" "ItemNameLocalized_ruRU")
+
 
 echo "--------------------------"
-echo "> Deploying "$FINAL_FILE
+echo "> Deploying final packages"
 echo "--------------------------"
 
-mkdir -p ./$ADDON_MAIN_FOLDER
-for i in "${FOLDERS[@]}"
+rm -f "ItemNameLocalized_Core/ItemLocales/en_US_1.lua"
+rm -f "ItemNameLocalized_Core/ItemLocales/en_US_2.lua"
+cp "parser/ItemLocales/en_US_1.lua" "ItemNameLocalized_Core/ItemLocales/en_US_1.lua"
+cp "parser/ItemLocales/en_US_2.lua" "ItemNameLocalized_Core/ItemLocales/en_US_2.lua"
+rm -f "ItemNameLocalized_Core/SpellLocales/en_US_1.lua"
+rm -f "ItemNameLocalized_Core/SpellLocales/en_US_2.lua"
+rm -f "ItemNameLocalized_Core/SpellLocales/en_US_3.lua"
+cp "parser/SpellLocales/en_US_1.lua" "ItemNameLocalized_Core/SpellLocales/en_US_1.lua"
+cp "parser/SpellLocales/en_US_2.lua" "ItemNameLocalized_Core/SpellLocales/en_US_2.lua"
+cp "parser/SpellLocales/en_US_3.lua" "ItemNameLocalized_Core/SpellLocales/en_US_3.lua"
+
+rm -f "ItemNameLocalized_esES/ItemLocales/es_ES_1.lua"
+rm -f "ItemNameLocalized_esES/ItemLocales/es_ES_2.lua"
+cp "parser/ItemLocales/es_ES_1.lua" "ItemNameLocalized_esES/ItemLocales/es_ES_1.lua"
+cp "parser/ItemLocales/es_ES_2.lua" "ItemNameLocalized_esES/ItemLocales/es_ES_2.lua"
+rm -f "ItemNameLocalized_esES/SpellLocales/es_ES_1.lua"
+rm -f "ItemNameLocalized_esES/SpellLocales/es_ES_2.lua"
+rm -f "ItemNameLocalized_esES/SpellLocales/es_ES_3.lua"
+cp "parser/SpellLocales/es_ES_1.lua" "ItemNameLocalized_esES/SpellLocales/es_ES_1.lua"
+cp "parser/SpellLocales/es_ES_2.lua" "ItemNameLocalized_esES/SpellLocales/es_ES_2.lua"
+cp "parser/SpellLocales/es_ES_3.lua" "ItemNameLocalized_esES/SpellLocales/es_ES_3.lua"
+
+rm -f "ItemNameLocalized_itIT/ItemLocales/it_IT_1.lua"
+rm -f "ItemNameLocalized_itIT/ItemLocales/it_IT_2.lua"
+cp "parser/ItemLocales/it_IT_1.lua" "ItemNameLocalized_itIT/ItemLocales/it_IT_1.lua"
+cp "parser/ItemLocales/it_IT_2.lua" "ItemNameLocalized_itIT/ItemLocales/it_IT_2.lua"
+rm -f "ItemNameLocalized_itIT/SpellLocales/it_IT_1.lua"
+rm -f "ItemNameLocalized_itIT/SpellLocales/it_IT_2.lua"
+rm -f "ItemNameLocalized_itIT/SpellLocales/it_IT_3.lua"
+cp "parser/SpellLocales/it_IT_1.lua" "ItemNameLocalized_itIT/SpellLocales/it_IT_1.lua"
+cp "parser/SpellLocales/it_IT_2.lua" "ItemNameLocalized_itIT/SpellLocales/it_IT_2.lua"
+cp "parser/SpellLocales/it_IT_3.lua" "ItemNameLocalized_itIT/SpellLocales/it_IT_3.lua"
+
+rm -f "ItemNameLocalized_frFR/ItemLocales/fr_FR_1.lua"
+rm -f "ItemNameLocalized_frFR/ItemLocales/fr_FR_2.lua"
+cp "parser/ItemLocales/fr_FR_1.lua" "ItemNameLocalized_frFR/ItemLocales/fr_FR_1.lua"
+cp "parser/ItemLocales/fr_FR_2.lua" "ItemNameLocalized_frFR/ItemLocales/fr_FR_2.lua"
+rm -f "ItemNameLocalized_frFR/SpellLocales/fr_FR_1.lua"
+rm -f "ItemNameLocalized_frFR/SpellLocales/fr_FR_2.lua"
+rm -f "ItemNameLocalized_frFR/SpellLocales/fr_FR_3.lua"
+cp "parser/SpellLocales/fr_FR_1.lua" "ItemNameLocalized_frFR/SpellLocales/fr_FR_1.lua"
+cp "parser/SpellLocales/fr_FR_2.lua" "ItemNameLocalized_frFR/SpellLocales/fr_FR_2.lua"
+cp "parser/SpellLocales/fr_FR_3.lua" "ItemNameLocalized_frFR/SpellLocales/fr_FR_3.lua"
+
+rm -f "ItemNameLocalized_deDE/ItemLocales/de_DE_1.lua"
+rm -f "ItemNameLocalized_deDE/ItemLocales/de_DE_2.lua"
+cp "parser/ItemLocales/de_DE_1.lua" "ItemNameLocalized_deDE/ItemLocales/de_DE_1.lua"
+cp "parser/ItemLocales/de_DE_2.lua" "ItemNameLocalized_deDE/ItemLocales/de_DE_2.lua"
+rm -f "ItemNameLocalized_deDE/SpellLocales/de_DE_1.lua"
+rm -f "ItemNameLocalized_deDE/SpellLocales/de_DE_2.lua"
+rm -f "ItemNameLocalized_deDE/SpellLocales/de_DE_3.lua"
+cp "parser/SpellLocales/de_DE_1.lua" "ItemNameLocalized_deDE/SpellLocales/de_DE_1.lua"
+cp "parser/SpellLocales/de_DE_2.lua" "ItemNameLocalized_deDE/SpellLocales/de_DE_2.lua"
+cp "parser/SpellLocales/de_DE_3.lua" "ItemNameLocalized_deDE/SpellLocales/de_DE_3.lua"
+
+rm -f "ItemNameLocalized_ptBR/ItemLocales/pt_BR_1.lua"
+rm -f "ItemNameLocalized_ptBR/ItemLocales/pt_BR_2.lua"
+cp "parser/ItemLocales/pt_BR_1.lua" "ItemNameLocalized_ptBR/ItemLocales/pt_BR_1.lua"
+cp "parser/ItemLocales/pt_BR_2.lua" "ItemNameLocalized_ptBR/ItemLocales/pt_BR_2.lua"
+rm -f "ItemNameLocalized_ptBR/SpellLocales/pt_BR_1.lua"
+rm -f "ItemNameLocalized_ptBR/SpellLocales/pt_BR_2.lua"
+rm -f "ItemNameLocalized_ptBR/SpellLocales/pt_BR_3.lua"
+cp "parser/SpellLocales/pt_BR_1.lua" "ItemNameLocalized_ptBR/SpellLocales/pt_BR_1.lua"
+cp "parser/SpellLocales/pt_BR_2.lua" "ItemNameLocalized_ptBR/SpellLocales/pt_BR_2.lua"
+cp "parser/SpellLocales/pt_BR_3.lua" "ItemNameLocalized_ptBR/SpellLocales/pt_BR_3.lua"
+
+rm -f "ItemNameLocalized_esMX/ItemLocales/es_MX_1.lua"
+rm -f "ItemNameLocalized_esMX/ItemLocales/es_MX_2.lua"
+cp "parser/ItemLocales/es_MX_1.lua" "ItemNameLocalized_esMX/ItemLocales/es_MX_1.lua"
+cp "parser/ItemLocales/es_MX_2.lua" "ItemNameLocalized_esMX/ItemLocales/es_MX_2.lua"
+rm -f "ItemNameLocalized_esMX/SpellLocales/es_MX_1.lua"
+rm -f "ItemNameLocalized_esMX/SpellLocales/es_MX_2.lua"
+rm -f "ItemNameLocalized_esMX/SpellLocales/es_MX_3.lua"
+cp "parser/SpellLocales/es_MX_1.lua" "ItemNameLocalized_esMX/SpellLocales/es_MX_1.lua"
+cp "parser/SpellLocales/es_MX_2.lua" "ItemNameLocalized_esMX/SpellLocales/es_MX_2.lua"
+cp "parser/SpellLocales/es_MX_3.lua" "ItemNameLocalized_esMX/SpellLocales/es_MX_3.lua"
+
+rm -f "ItemNameLocalized_ruRU/ItemLocales/ru_RU_1.lua"
+rm -f "ItemNameLocalized_ruRU/ItemLocales/ru_RU_2.lua"
+cp "parser/ItemLocales/ru_RU_1.lua" "ItemNameLocalized_ruRU/ItemLocales/ru_RU_1.lua"
+cp "parser/ItemLocales/ru_RU_2.lua" "ItemNameLocalized_ruRU/ItemLocales/ru_RU_2.lua"
+rm -f "ItemNameLocalized_ruRU/SpellLocales/ru_RU_1.lua"
+rm -f "ItemNameLocalized_ruRU/SpellLocales/ru_RU_2.lua"
+rm -f "ItemNameLocalized_ruRU/SpellLocales/ru_RU_3.lua"
+cp "parser/SpellLocales/ru_RU_1.lua" "ItemNameLocalized_ruRU/SpellLocales/ru_RU_1.lua"
+cp "parser/SpellLocales/ru_RU_2.lua" "ItemNameLocalized_ruRU/SpellLocales/ru_RU_2.lua"
+cp "parser/SpellLocales/ru_RU_3.lua" "ItemNameLocalized_ruRU/SpellLocales/ru_RU_3.lua"
+
+
+for folder in "${FOLDERS[@]}"
 do
-	echo "> Copy folder: "$i
-	cp -r ./$i ./$ADDON_MAIN_FOLDER
+	FINAL_FILE="${folder}_${ADDON_VERSION}_wow${GAME_VERSION}.zip"
+	zip -r ./$FINAL_FILE ./$folder/*
 done
-echo "--------------------------"
-for i in "${FILES[@]}"
-do
-	echo "> Copy file: "$i
-	cp -r ./$i ./$ADDON_MAIN_FOLDER
-done
-
-echo "--------------------------"
-echo "> Deleting old zip"
-rm -f ./$FINAL_FILE
-echo "> Creating zip"
-zip -r ./$FINAL_FILE ./$ADDON_MAIN_FOLDER/*
-echo "> zip created"
-echo "--------------------------"
-echo "> Cleaning"
-rm -rf ./$ADDON_MAIN_FOLDER
 echo "--------------------------"
 read -p "> Deployment finished. Press [Enter]..."

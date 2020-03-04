@@ -1,0 +1,15 @@
+## Interface: 80300
+## Title: ItemNameLocalized_esES
+## Notes: Module for Item Name Localized with es_ES localizations
+## Author: Urkaz
+## Version: 2.0
+## Dependencies: ItemNameLocalized_Core
+
+ItemLocales/es_ES_1.lua
+ItemLocales/es_ES_2.lua
+
+SpellLocales/es_ES_1.lua
+SpellLocales/es_ES_2.lua
+SpellLocales/es_ES_3.lua
+
+Core.lua

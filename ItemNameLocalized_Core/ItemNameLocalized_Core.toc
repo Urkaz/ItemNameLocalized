@@ -1,0 +1,23 @@
+## Interface: 80300
+## Title: ItemNameLocalized_Core
+## Notes: Show the name of the items in a different language
+## Author: Urkaz
+## Version: 2.0
+## SavedVariablesPerCharacter: INL_Settings
+
+Preload.lua
+
+ItemLocales/en_US_1.lua
+ItemLocales/en_US_2.lua
+SpellLocales/en_US_1.lua
+SpellLocales/en_US_2.lua
+SpellLocales/en_US_3.lua
+
+Core.lua
+
+AddonLocale/lang_default.lua
+AddonLocale/lang_esES.lua
+AddonLocale/lang_deDE.lua
+AddonLocale/lang_ruRU.lua
+AddonLocale/lang_ptBR.lua
+AddonLocale/lang_koKR.lua
