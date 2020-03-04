@@ -27,8 +27,8 @@ spell_parser.py es_ES 320820 320820
 spell_parser.py de_DE 320820 320820
 spell_parser.py fr_FR 320820 320820
 spell_parser.py it_IT 320820 320820
-spell_parser.py pt_BR 299569 320820
-spell_parser.py ru_RU 300849 320820
+spell_parser.py pt_BR 320820 320820
+spell_parser.py ru_RU 320820 320820
 spell_parser.py ko_KR 1 320820
 spell_parser.py zh_TW 1 320820
-spell_parser.py es_MX 308082 320820
+spell_parser.py es_MX 320820 320820
