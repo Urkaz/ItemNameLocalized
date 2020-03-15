@@ -8,28 +8,25 @@ Now you can tell to that friend that plays WoW with a different language the nam
 
 The Core addon only has support for English, but you can download additional languages individually as modules (check the list below).
 
-The addon uses 25-30 MB of memory since all the item names of the selected locale are in the memory. The other available locales are "deleted" to free memory after the addon is loaded, so selecting another locale from the options menu will require a UI reload to get the new locale loaded.
+The addon uses 60-70 MB of memory since all the item and spell names of the selected locale are in the memory. The other available locales (if you have some modile installed) are "deleted" to free memory after the addon is loaded, so selecting a different locale from the options menu will require a UI reload to load it.
 
 All names and IDs are obtained from the official API, if some item or spell is not localized in some language, tell me and I will try to add it as soon as possible.
 
 ### Languages supported
 * enUS (8.3.0)
-* esES (8.3.0)
-* esMX (8.3.0)
-* frFR (8.3.0)
-* deDE (8.3.0)
-* itIT (8.3.0)
-* ptBR (8.3.0)
-* ruRU (8.3.0)
+* esES (8.3.0) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-eses)
+* frFR (8.3.0) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-frfr)
+* deDE (8.3.0) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-dede)
+* itIT (8.3.0) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-itit)
+* ptBR (8.3.0) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-ptbr)
+* ruRU (8.3.0) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-ruru)
+* esMX (8.3.0) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-esmx)
 
-### Languages temporally unsupported
+### Languages temporally unsupported (use addon version 1.8)
 * koKR (8.2.5)
 * zhTW (8.2.5)
 
 ### Current features
-* Add the item name on the tooltip title.
-* Add the item name on a single extra line on the tooltip.
-* Generate Wowhead URLs of any item with a command (/inl link [shift+click one or more items]).
-
-### Known issues
-* Sometimes Korean items lose the quality color in the tooltip name.
+* Adds the Item name or Spell name to the tooltip title.
+* Adds the Item name or Spell name on a single extra line on the tooltip.
+* Generate Wowhead URLs of any item and spell with a command (/inl link [shift+click one or more items]).
