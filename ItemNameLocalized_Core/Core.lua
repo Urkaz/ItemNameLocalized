@@ -20,7 +20,7 @@ local tipType = {
   item = "item",
 }
 
-local vers	= "2.0"
+local vers	= "2.1"
 local INL	= INL_Addon
 local L 	= INL_Addon.strings
 

@@ -1,3 +1,10 @@
+### v2.1
+* Updated to patch 9.0.1.
+
+### v2
+* Now the addon displays the Spell names too.
+* The addon now only includes English. Other languages can be downloaded as individual modules.
+
 ### v1.8
 * Updated to 8.2.5 items.
 
