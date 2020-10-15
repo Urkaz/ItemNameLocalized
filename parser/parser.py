@@ -141,7 +141,7 @@ class Parser():
 		self.processStarted = False
 		self.lastItemID = 0
 		self.strLen = 48
-		self.baseUrl = 'https://eu.api.blizzard.com/wow/item/%d'
+		self.baseUrl = 'https://eu.api.blizzard.com/data/wow/item/%d'
 		self.file = None
 		self.removedLua = []
 		self.dbFile = File("parser_progress.txt")
@@ -325,6 +325,7 @@ class Parser():
 			self.lastItemID = self.rangeStart
 
 			params = dict(
+				namespace="static-eu",
 				locale=self.currLocale,
 				access_token=reqs.token
 			)
@@ -350,6 +351,7 @@ class Parser():
 						time = now.strftime('%H:%M:%S')
 
 						data = reqs.GetData()
+
 						if data != "Downstream Error":
 							data = json.loads(data)
 
@@ -397,12 +399,12 @@ class Parser():
 									print(" %s - \033[31m#%i\033[0m - [%s]" % (time, itemID, name))
 							else:
 								if req_status_code == 404:
-									if 'reason' not in data:
+									if 'detail' not in data:
 										self.PrintError("E", "404 Error: No reason found")
 										error = True
 										break
 									else:
-										print(" %s - \033[33m#%i\033[0m - %s" % (time, itemID, data["reason"]))
+										print(" %s - \033[33m#%i\033[0m - %s" % (time, itemID, data["detail"]))
 								elif req_status_code == 504:
 									self.PrintError("E", "504 Error: Gateway timeout")
 									error = True
