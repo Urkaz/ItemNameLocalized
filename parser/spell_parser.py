@@ -363,9 +363,12 @@ class Parser():
 									break
 
 								name = data["name"]
-								name = name.replace('"', '\\"')
-								name = name.replace('\r\n', '')
-								name = name.replace('\n', '')
+								if name != None:
+									name = name.replace('"', '\\"')
+									name = name.replace('\r\n', '')
+									name = name.replace('\n', '')
+								else:
+									name = ""
 
 								luaString = '  {%i,"%s"},\n' % (itemID, name)
 
