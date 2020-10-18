@@ -1,22 +1,22 @@
 -- ITEMS -- 
-parser.py en_US 20 200000
-parser.py es_ES 20 200000
-parser.py de_DE 20 200000
-parser.py fr_FR 20 200000
-parser.py it_IT 20 200000
-parser.py pt_BR 20 200000
-parser.py ru_RU 20 200000
-parser.py es_MX 20 200000
+parser.py en_US 184650 184650
+parser.py es_ES 184650 184650
+parser.py de_DE 184650 184650
+parser.py fr_FR 184650 184650
+parser.py it_IT 184650 184650
+parser.py pt_BR 184650 184650
+parser.py ru_RU 155421 184650
+parser.py es_MX 23407 184650
 
 -- SPELLS --
-spell_parser.py en_US 1 400000
-spell_parser.py es_ES 1 400000
-spell_parser.py de_DE 1 400000
-spell_parser.py fr_FR 1 400000
-spell_parser.py it_IT 1 400000
-spell_parser.py pt_BR 1 400000
-spell_parser.py ru_RU 1 400000
-spell_parser.py es_MX 1 400000
+spell_parser.py en_US 346110 346110
+spell_parser.py es_ES 346110 346110
+spell_parser.py de_DE 346110 346110
+spell_parser.py fr_FR 249799 346110
+spell_parser.py it_IT 346110 346110
+spell_parser.py pt_BR 346110 346110
+spell_parser.py ru_RU 210869 346110
+spell_parser.py es_MX 1 346110
 
 
 -- OLD ----
