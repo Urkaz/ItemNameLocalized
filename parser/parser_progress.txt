@@ -5,26 +5,23 @@ parser.py de_DE 184650 184650
 parser.py fr_FR 184650 184650
 parser.py it_IT 184650 184650
 parser.py pt_BR 184650 184650
-parser.py ru_RU 155421 184650
-parser.py es_MX 23407 184650
+parser.py ru_RU 184650 184650
+parser.py es_MX 111601 184650
 
 -- SPELLS --
 spell_parser.py en_US 346110 346110
 spell_parser.py es_ES 346110 346110
 spell_parser.py de_DE 346110 346110
-spell_parser.py fr_FR 249799 346110
+spell_parser.py fr_FR 346110 346110
 spell_parser.py it_IT 346110 346110
 spell_parser.py pt_BR 346110 346110
-spell_parser.py ru_RU 210869 346110
-spell_parser.py es_MX 1 346110
+spell_parser.py ru_RU 346110 346110
+spell_parser.py es_MX 109752 346110
 
 
 -- OLD ----
 
-parser.py ko_KR 161619 175265
-parser.py zh_TW 160000 175265
-parser.py ko_KR 20 160000
-parser.py zh_TW 20 160000
-
-spell_parser.py ko_KR 1 320820
-spell_parser.py zh_TW 1 320820
+parser.py ko_KR 20 184650
+parser.py zh_TW 20 184650
+spell_parser.py ko_KR 1 346110
+spell_parser.py zh_TW 1 346110
