@@ -1,10 +1,7 @@
 *.zip
 client_id.key
 client_secret.key
-**/parser/ItemLocales/*2.lua
-**/parser/ItemLocales/*1.lua
-**/parser/SpellLocales/*3.lua
-**/parser/SpellLocales/*1.lua
-**/parser/SpellLocales/*2.lua
+**/parser/ItemLocales/*[1-9].lua
+**/parser/SpellLocales/*[1-9].lua
 **/ItemNameLocalized_*/ItemLocales/*
 **/ItemNameLocalized_*/SpellLocales/*

@@ -519,6 +519,9 @@ class Requests():
 		except ValueError:
 			print("--------------------------")
 			self.PrintError("E", "No JSON TOKEN object could be decoded")
+		except requests.exceptions.ConnectionError:
+			print("--------------------------")
+			self.PrintError("E", "There was a problem with the Internet connection.")
 
 	def ReadClientID(self):
 		if os.path.isfile(self.client_id_file):
