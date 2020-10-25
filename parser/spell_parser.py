@@ -547,6 +547,17 @@ class Requests():
 	def GetData(self):
 		return self.resp.text
 
+	def PrintError(self, type, message):
+		t = ""
+		if type == "E":
+			t = "\033[31m/!\\ ERROR\033[0m"
+			# self.utils.PlaySound(200, 200, 3)
+		elif type == "W":
+			t = "\033[33m/!\\ WARNING\033[0m"
+			# self.utils.PlaySound(200, 200, 2)
+		print(" %s: %s" % (t, message))
+		print("--------------------------")
+
 ''' ****************
 	PROGRAM START
 **************** '''
