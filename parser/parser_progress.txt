@@ -6,7 +6,7 @@ parser.py fr_FR 184650 184650
 parser.py it_IT 184650 184650
 parser.py pt_BR 184650 184650
 parser.py ru_RU 184650 184650
-parser.py es_MX 111601 184650
+parser.py es_MX 184650 184650
 
 -- SPELLS --
 spell_parser.py en_US 346110 346110
@@ -16,7 +16,7 @@ spell_parser.py fr_FR 346110 346110
 spell_parser.py it_IT 346110 346110
 spell_parser.py pt_BR 346110 346110
 spell_parser.py ru_RU 346110 346110
-spell_parser.py es_MX 109752 346110
+spell_parser.py es_MX 346110 346110
 
 
 -- OLD ----
