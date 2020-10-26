@@ -1,8 +1,8 @@
-## Interface: 80300
+## Interface: 90001
 ## Title: ItemNameLocalized_frFR
 ## Notes: Module for Item Name Localized with fr_FR localizations
 ## Author: Urkaz
-## Version: 2.0
+## Version: 2.1
 ## Dependencies: ItemNameLocalized_Core
 
 ItemLocales/fr_FR_1.lua

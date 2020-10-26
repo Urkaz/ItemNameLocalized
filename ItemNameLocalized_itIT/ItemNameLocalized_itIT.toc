@@ -1,8 +1,8 @@
-## Interface: 80300
+## Interface: 90001
 ## Title: ItemNameLocalized_itIT
 ## Notes: Module for Item Name Localized with it_IT localizations
 ## Author: Urkaz
-## Version: 2.0
+## Version: 2.1
 ## Dependencies: ItemNameLocalized_Core
 
 ItemLocales/it_IT_1.lua
