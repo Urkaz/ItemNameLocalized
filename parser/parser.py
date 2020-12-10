@@ -2,6 +2,7 @@ import math
 import sys, os
 from os import remove, close, path, name
 import re
+import datetime
 
 # check dependent modules
 from importlib import util
@@ -20,24 +21,24 @@ if (not col_found):
 # end check modules
 
 class WindowsInhibitor:
-    ES_CONTINUOUS = 0x80000000
-    ES_SYSTEM_REQUIRED = 0x00000001
+	ES_CONTINUOUS = 0x80000000
+	ES_SYSTEM_REQUIRED = 0x00000001
 
-    def __init__(self):
-        pass
+	def __init__(self):
+		pass
 
-    def Inhibit(self):
-        import ctypes
-        #print("Preventing Windows from going to sleep")
-        ctypes.windll.kernel32.SetThreadExecutionState(
-            WindowsInhibitor.ES_CONTINUOUS | \
-            WindowsInhibitor.ES_SYSTEM_REQUIRED)
+	def Inhibit(self):
+		import ctypes
+		#print("Preventing Windows from going to sleep")
+		ctypes.windll.kernel32.SetThreadExecutionState(
+			WindowsInhibitor.ES_CONTINUOUS | \
+			WindowsInhibitor.ES_SYSTEM_REQUIRED)
 
-    def Uninhibit(self):
-        import ctypes
-        #print("Allowing Windows to go to sleep")
-        ctypes.windll.kernel32.SetThreadExecutionState(
-            WindowsInhibitor.ES_CONTINUOUS)
+	def Uninhibit(self):
+		import ctypes
+		#print("Allowing Windows to go to sleep")
+		ctypes.windll.kernel32.SetThreadExecutionState(
+			WindowsInhibitor.ES_CONTINUOUS)
 
 class File():
 	def __init__(self, path_):
@@ -82,6 +83,27 @@ class File():
 			with open(self.path, encoding="utf8") as old_file:
 				for line in old_file:
 					new_file.write(line.replace(pattern, subst))
+		close(fh)
+		#Remove original file
+		remove(self.path)
+		#Move new file
+		move(abs_path, self.path)
+
+	def DeleteLine(self, lineNum):
+		from tempfile import mkstemp
+		from shutil import move
+	
+		while not self.CheckFileAccess():
+			pass
+
+		#Create temp file
+		fh, abs_path = mkstemp()
+		with open(abs_path,'w', encoding="utf8") as new_file:
+			with open(self.path, encoding="utf8") as old_file:
+			
+				for lineno, line in enumerate(old_file, 1):
+					if lineno != lineNum:
+						new_file.write(line)
 		close(fh)
 		#Remove original file
 		remove(self.path)
@@ -134,17 +156,37 @@ class Parser():
 		print(" \033[33mItemNameLocalized WoW Api Parser\033[0m")
 		print("--------------------------")
 
-		self.currLocale = ''
+		self.localesList = ["en_US","es_MX","pt_BR","de_DE","es_ES","fr_FR","it_IT","ru_RU","ko_KR","zh_TW","zh_CN"]
+		self.eachLangcheck = []
 		self.rangeStart = 25
-		self.rangeEnd = 153490
+		self.rangeEnd = 26
 
 		self.processStarted = False
 		self.lastItemID = 0
-		self.strLen = 48
+		self.minimumPrints = False
 		self.baseUrl = 'https://eu.api.blizzard.com/data/wow/item/%d'
-		self.file = None
-		self.removedLua = []
+		self.files = []
 		self.dbFile = File("parser_progress.txt")
+		
+		#Color flags
+		self.ADDED = "32"
+		self.REPLACED = "36"
+		self.UNTOUCHED = "30;1"
+		self.REMOVED = "31"
+		self.NOT_FOUND = "33"
+
+		#Create locale files if missing
+		for i in range(len(self.localesList)):
+			locale = self.localesList[i];
+			path = 'ItemLocales/' + locale + '.lua'
+			init = 'INL_Items.%s = {\n}' % (locale.replace("_", ""))
+
+			self.files.append(File(path))
+			if not self.files[i].Exists():
+				self.files[i].Write(init);
+			self.files[i].GetNumberOfLines();
+			
+			self.eachLangcheck.append(0);
 
 		#Check dbFile file
 		if not self.dbFile.Exists():
@@ -191,15 +233,22 @@ class Parser():
 			raise
 
 	def PrintArgs(self):
-		print(" \033[31m/!\ ERROR\033[0m: No arguments: wow.py  locale [rangeStart [rangeEnd]]")
-		print("            Example:      wow.py  en_US    15649      150000")
+		print(" \033[36m(i) HELP\033[0m: Arguments: parser.py [rangeStart][rangeEnd][DisablePrints]")
+		print("    Example: parser.py 15649 150000 False")
+		print("--------------------------")
+		print(" Color codes displayed while parsing:")
+		print("    \033[%smGreen\033[0m:  New item added" % self.ADDED)
+		print("    \033[%smRed\033[0m:    Item deleted (The item was in the file, but not in the API)" % self.REMOVED)
+		print("    \033[%smYellow\033[0m: Item not found (The item was not present in the file and the API)" % self.NOT_FOUND)
+		print("    \033[%smBlue\033[0m:   Item replaced (A different version of the item was found in the API)" % self.REPLACED)
+		print("    \033[%smBlack\033[0m:  Item not changed (The item in the file is the same as the found in the API)" % self.UNTOUCHED)
 		print("--------------------------")
 
 	def PrintConfig(self):
 		print(" Config:")
-		print("\tLanguage: \033[36m%s\033[0m" % (self.currLocale))
 		print("\tRange Start: \033[36m%i\033[0m" % (self.rangeStart))
 		print("\tRange End: \033[36m%i\033[0m" % (self.rangeEnd))
+		print("\tMinimum Prints: \033[36m%s\033[0m" % (self.minimumPrints))
 		print("--------------------------")
 
 	def PrintError(self, type, message):
@@ -216,95 +265,74 @@ class Parser():
 	def Config(self, args):
 		if len(args) >= 2:
 			if args[1] is not None:
-				self.currLocale = args[1]
+				self.rangeStart = int(args[1])
 
 		if len(args) >= 3:
 			if args[2] is not None:
-				self.rangeStart = int(args[2])
-
+				self.rangeEnd = int(args[2])
+		
 		if len(args) >= 4:
 			if args[3] is not None:
-				self.rangeEnd = int(args[3])
-
-		if self.currLocale == "ko_KR":
-			self.strLen = 28
-			self.baseUrl = 'https://kr.api.blizzard.com/wow/item/%d'
-		if self.currLocale == "zh_TW":
-			self.baseUrl = 'https://tw.api.blizzard.com/wow/item/%d'
-		if self.currLocale == "ru_RU":
-			self.strLen = 28
-
-		path = 'ItemLocales/' + self.currLocale + '.lua'
-		init = 'INL_Items.%s = {\n}' % (self.currLocale.replace("_", ""))
-		self.file = File(path)
-		if not self.file.Exists():
-			self.file.Write(init);
-
-	def RemoveExtraLua(self):
-		contents = self.file.ReadFile()
-
-		self.removedLua = []
-		self.removedLua.append(contents[:1][0])
-		self.removedLua.append(contents[-1:][0])
-
-		contents = contents[1:-1]
-
-		self.file.WriteLines(contents)
-
-	def RestoreExtraLua(self):
-		contents = self.file.ReadFile()
-
-		contents.insert(0, self.removedLua[0])
-		contents.append(self.removedLua[1])
-
-		self.file.WriteLines(contents)
+				self.minimumPrints = args[3].lower() == 'true'
 
 	def SaveIndexes(self):
 		dbFilename = "parser";
-		self.Command = "%s.py %s %i %i" % (dbFilename, self.currLocale, self.lastItemID, self.rangeEnd)
-		print(" \033[35m%s.py %s %i %i\033[0m" % (dbFilename, self.currLocale, self.lastItemID, self.rangeEnd))
-		self.dbFile.ReplacePattern("%s.py %s %i %i" % (dbFilename, self.currLocale, self.rangeStart, self.rangeEnd), "%s.py %s %i %i" % (dbFilename, self.currLocale, self.lastItemID, self.rangeEnd))
+		self.Command = "%s.py %i %i" % (dbFilename, self.lastItemID, self.rangeEnd)
+		print(" \033[35m%s.py %i %i\033[0m" % (dbFilename, self.lastItemID, self.rangeEnd))
+		self.dbFile.ReplacePattern("%s.py %i %i" % (dbFilename, self.rangeStart, self.rangeEnd), self.Command)
 
-	def FindInFile(self, item, minI, maxI):
-		contents = self.file.ReadFile()
-		return self.FindInContents(item, minI, maxI, contents)
+	def FindInFile(self, fileIndex, item):
+		contents = self.files[fileIndex].ReadFile()
+		return self.FindInContents(item, 2, self.files[fileIndex].lines -1, contents)
 
 	def FindInContents(self, item, minI, maxI, contents):
 		guess = int(math.floor(minI + (maxI - minI) / 2))
-		#print (guess, minI, maxI)
+		#print ("guess: %d | min: %d | max: %d" % (guess, minI, maxI))
 		if maxI >= minI:
 			guessed_line = contents[guess-1]
-			#print guessed_line[:-1]
-			#print (guess, minI, maxI, guessed_line[:-1])
+			#print ("guess: %d | min: %d | max: %d | guessed_line: %s" % (guess, minI, maxI, guessed_line[:-1]))
 			m = re.search('(\d{1,7})', guessed_line)
 			if m is None:
 				return [1, False]
 			guessed_ID = int(m.group(0))
-			#print(guessed_ID)
+			#print("ID: %d" % guessed_ID)
 
 			if guessed_ID == item:
-				return [guess, True]
+				#print ("END | guess: %d | line: %s" % (guess-1, contents[guess-1]))
+				return [guess-1, True]
 
 			if guessed_ID < item:
-				#print guessed_ID , "<",  item
+				#print ("ID: %d < item: %s" % (guessed_ID, item))
 				return self.FindInContents(item, guess + 1, maxI, contents)
 			else:
-				#print guessed_ID , ">",  item
+				#print ("ID: %d > item: %s" % (guessed_ID, item))
 				return self.FindInContents(item, minI, guess - 1, contents)
 		else:
-			#print item , "NOT FOUND at pos" , guess
-			return [guess, False]
+			#print ("END | %d NOT FOUND at pos %d" % (item, guess))
+			return [guess-1, False]
 
-	def GetNameFromLine(self, lineIndex):
-		contents = self.file.ReadFile()
+	def GetNameFromLine(self, fileIndex, lineIndex):
+		contents = self.files[fileIndex].ReadFile()
 		m = re.search(r'"(.+?)(?<!\\)"', contents[lineIndex])
 		if(m is not None):
 			return m.group(0)
 		return '""'
 
-	def ReplaceNameFromLine(self, lineIndex, newText):
-		contents = self.file.ReadFile()
-		self.file.ReplacePattern(contents[lineIndex], newText)
+	def ReplaceNameFromLine(self, fileIndex, lineIndex, newText):
+		contents = self.files[fileIndex].ReadFile()
+		self.files[fileIndex].ReplacePattern(contents[lineIndex], newText)
+
+	def PrintItem(self, itemID):
+		now = datetime.datetime.now()
+		time = now.strftime('%H:%M:%S')
+		if not self.minimumPrints:
+			data = "|"
+			for localeIndex in range(len(self.localesList)):
+				data = "%s\033[%sm%s\033[0m|" % (data, self.eachLangcheck[localeIndex], self.localesList[localeIndex])
+			print(" %s - #%i - [%s]" % (time, itemID, data))
+		else:
+			if itemID % 50 == 0:
+				print(" %s - \033[36m#%i\033[0m" % (time, itemID))
 
 	def Run(self):
 		import json
@@ -326,14 +354,8 @@ class Parser():
 
 			params = dict(
 				namespace="static-eu",
-				locale=self.currLocale,
 				access_token=reqs.token
 			)
-
-			self.file.GetNumberOfLines()
-
-			self.RemoveExtraLua()
-			self.file.GetNumberOfLines()
 
 			self.processStarted = True
 			while self.lastItemID < self.rangeEnd-1 and not error:
@@ -346,9 +368,6 @@ class Parser():
 
 						reqs.MakeRequest(url, params)
 						req_status_code = reqs.GetRequestStatusCode()
-
-						now = datetime.datetime.now()
-						time = now.strftime('%H:%M:%S')
 
 						data = reqs.GetData()
 
@@ -363,43 +382,41 @@ class Parser():
 									error = True
 									break
 
-								name = data["name"]
-								if name != None:
-									name = name.replace('"', '\\"')
-									name = name.replace('\r\n', '')
-									name = name.replace('\n', '')
-								else:
-									name = ""
-
-								luaString = '  {%i,"%s"},\n' % (itemID, name)
-
-								result = self.FindInFile(itemID, 1, self.file.lines)
-								exists = result[1]
-
-								if not exists:
-									self.file.InsertInLine(result[0], luaString)
-									self.file.lines += 1
-									addedItems += 1
-								else:
-									current_name = self.GetNameFromLine(result[0]-1)
-									new_name = '"%s"' % (name)
-									if current_name != new_name:
-										isReplaced = True
-										self.ReplaceNameFromLine(result[0]-1, luaString)
-										replacedItems += 1
+								for localeIndex in range(len(self.localesList)):
+									locale = self.localesList[localeIndex];
+									nameDict = data["name"]
+										
+									if locale not in nameDict:
+										self.eachLangcheck[localeIndex] = self.NOT_FOUND;
 									else:
-										isReplaced = False
+										name = nameDict[locale]
+										name = name.replace('"', '\\"')
+										name = name.replace('\r\n', '')
+										name = name.replace('\n', '')
 
-								if len(name) > self.strLen+3:
-									name = name[:self.strLen] + "..."
+										luaString = '  {%i,"%s"},\n' % (itemID, name)
+										
+										result = self.FindInFile(localeIndex, itemID)
+										exists = result[1]
 
-								if exists:
-									if isReplaced:
-										print(" %s - \033[36m#%i\033[0m - [%s]" % (time, itemID, name))
-									else:
-										print(" %s - \033[32m#%i\033[0m - [%s]" % (time, itemID, name))
-								else:
-									print(" %s - \033[31m#%i\033[0m - [%s]" % (time, itemID, name))
+										if not exists:
+											self.files[localeIndex].InsertInLine(result[0]+1, luaString)
+											self.files[localeIndex].lines += 1
+											addedItems += 1
+											self.eachLangcheck[localeIndex] = self.ADDED;
+										else:
+											current_name = self.GetNameFromLine(localeIndex, result[0])
+											new_name = '"%s"' % (name)
+											if current_name != new_name:
+												isReplaced = True
+												self.ReplaceNameFromLine(localeIndex, result[0], luaString)
+												replacedItems += 1
+												self.eachLangcheck[localeIndex] = self.REPLACED;
+											else:
+												isReplaced = False
+												self.eachLangcheck[localeIndex] = self.UNTOUCHED;
+											
+								self.PrintItem(itemID)
 							else:
 								if req_status_code == 404:
 									if 'detail' not in data:
@@ -407,7 +424,16 @@ class Parser():
 										error = True
 										break
 									else:
-										print(" %s - \033[33m#%i\033[0m - %s" % (time, itemID, data["detail"]))
+										for localeIndex in range(len(self.localesList)):
+											result = self.FindInFile(localeIndex, itemID)
+											exists = result[1]
+											if exists:
+												self.files[localeIndex].DeleteLine(result[0]+1)
+												self.eachLangcheck[localeIndex] = self.REMOVED;
+											else:
+												self.eachLangcheck[localeIndex] = self.NOT_FOUND;
+										self.PrintItem(itemID)
+										
 								elif req_status_code == 504:
 									self.PrintError("E", "504 Error: Gateway timeout")
 									error = True
@@ -418,6 +444,10 @@ class Parser():
 									break
 						else:
 							print(" %s - \033[33m#%i\033[0m - %s" % (time, itemID, "Downstream Error"))
+							
+						#if itemID % 50 == 0:
+							#print(" New indexes saved:")
+							#self.SaveIndexes()
 				except KeyboardInterrupt:
 					error = True
 					raise
@@ -464,7 +494,6 @@ class Parser():
 			self.PrintError("E", "Unknown Error")
 			raise
 		finally:
-			self.RestoreExtraLua()
 			print(" New indexes saved:")
 			self.SaveIndexes()
 			print("--------------------------")
@@ -473,7 +502,7 @@ class Parser():
 			print("\tNew items added: \033[36m%i\033[0m" % (addedItems))
 			print("\tReplaced items: \033[36m%i\033[0m" % (replacedItems))
 			print("--------------------------")
-			print(" \033[32mFinished\033[0m parsing \033[36m%s\033[0m" % (self.currLocale))
+			print(" \033[32mProcess Finished\033[0m")
 			print("--------------------------")
 			self.utils.PlaySound(2000, 250, 1)
 
