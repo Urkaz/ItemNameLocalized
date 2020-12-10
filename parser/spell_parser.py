@@ -163,6 +163,7 @@ class Parser():
 
 		self.processStarted = False
 		self.lastItemID = 0
+		self.lastSavedID = 0
 		self.minimumPrints = False
 		self.baseUrl = 'https://eu.api.blizzard.com/data/wow/spell/%d'
 		self.files = []
@@ -202,6 +203,8 @@ class Parser():
 			if self.rangeEnd <= self.rangeStart:
 				self.PrintError("E", "rangeStart can't be less or equal than rangeEnd")
 				self.Exit()
+
+		self.lastSavedID = self.rangeStart
 
 		#Utils
 		self.utils = Utils()
@@ -279,7 +282,7 @@ class Parser():
 		dbFilename = "spell_parser";
 		self.Command = "%s.py %i %i" % (dbFilename, self.lastItemID, self.rangeEnd)
 		print(" \033[35m%s.py %i %i\033[0m" % (dbFilename, self.lastItemID, self.rangeEnd))
-		self.dbFile.ReplacePattern("%s.py %i %i" % (dbFilename, self.rangeStart, self.rangeEnd), self.Command)
+		self.dbFile.ReplacePattern("%s.py %i %i" % (dbFilename, self.lastSavedID, self.rangeEnd), self.Command)
 
 	def FindInFile(self, fileIndex, item):
 		contents = self.files[fileIndex].ReadFile()
@@ -415,7 +418,7 @@ class Parser():
 											else:
 												isReplaced = False
 												self.eachLangcheck[localeIndex] = self.UNTOUCHED;
-								
+											
 								self.PrintItem(itemID)
 							else:
 								if req_status_code == 404:
@@ -444,6 +447,11 @@ class Parser():
 									break
 						else:
 							print(" %s - \033[33m#%i\033[0m - %s" % (time, itemID, "Downstream Error"))
+							
+						if itemID % 50 == 0:
+							print(" New indexes saved:")
+							self.SaveIndexes()
+							self.lastSavedID = itemID
 				except KeyboardInterrupt:
 					error = True
 					raise
