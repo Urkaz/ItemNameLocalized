@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ADDON_VERSION="v2.1"
-GAME_VERSION="9.0.1"
+ADDON_VERSION="v2.2"
+GAME_VERSION="9.0.2"
 
 FOLDERS=("ItemNameLocalized_Core" "ItemNameLocalized_esES" "ItemNameLocalized_deDE" "ItemNameLocalized_esMX" "ItemNameLocalized_frFR" "ItemNameLocalized_itIT" "ItemNameLocalized_ptBR" "ItemNameLocalized_ruRU")
 

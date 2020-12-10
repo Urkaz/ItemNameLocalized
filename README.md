@@ -8,23 +8,22 @@ Now you can tell to that friend that plays WoW with a different language the nam
 
 The Core addon only has support for English, but you can download additional languages individually as modules (check the list below).
 
-The addon uses 60-70 MB of memory since all the item and spell names of the selected locale are in the memory. The other available locales (if you have some modile installed) are "deleted" to free memory after the addon is loaded, so selecting a different locale from the options menu will require a UI reload to load it.
+The addon uses 70-80 MB of memory since all the item and spell names of the selected locale are in the memory. The other available locales (if you have some modile installed) are "deleted" to free memory after the addon is loaded, so selecting a different locale from the options menu will require a UI reload to load it.
 
 All names and IDs are obtained from the official API, if some item or spell is not localized in some language, tell me and I will try to add it as soon as possible.
 
 ### Languages supported
-* enUS (9.0.1)
-* esES (9.0.1) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-eses)
-* frFR (9.0.1) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-frfr)
-* deDE (9.0.1) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-dede)
-* itIT (9.0.1) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-itit)
-* ptBR (9.0.1) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-ptbr)
-* ruRU (9.0.1) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-ruru)
-* esMX (9.0.1) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-esmx)
-
-### Languages temporally unsupported (use addon version 1.8)
-* koKR (8.2.5)
-* zhTW (8.2.5)
+* enUS (9.0.2)
+* esES (9.0.2) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-eses)
+* frFR (9.0.2) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-frfr)
+* deDE (9.0.2) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-dede)
+* itIT (9.0.2) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-itit)
+* ptBR (9.0.2) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-ptbr)
+* ruRU (9.0.2) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-ruru)
+* esMX (9.0.2) - [Download module from Curse](https://www.curseforge.com/wow/addons/itemnamelocalized-esmx)
+* koKR (9.0.2)
+* zhTW (9.0.2)
+* zhCN (9.0.2)
 
 ### Current features
 * Adds the Item name or Spell name to the tooltip title.

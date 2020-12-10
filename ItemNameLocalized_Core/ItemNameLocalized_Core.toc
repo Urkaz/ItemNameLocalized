@@ -1,8 +1,8 @@
-## Interface: 90001
-## Title: ItemNameLocalized_Core
+## Interface: 90002
+## Title: ItemNameLocalized Core
 ## Notes: Show the name of the items in a different language
 ## Author: Urkaz
-## Version: 2.1
+## Version: 2.2
 ## SavedVariablesPerCharacter: INL_Settings
 
 Preload.lua

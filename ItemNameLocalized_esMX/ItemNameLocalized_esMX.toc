@@ -1,8 +1,8 @@
-## Interface: 90001
-## Title: ItemNameLocalized_esMX
+## Interface: 90002
+## Title: ItemNameLocalized [Spanish (Latin American) module]
 ## Notes: Module for Item Name Localized with es_MX localizations
 ## Author: Urkaz
-## Version: 2.1
+## Version: 2.2
 ## Dependencies: ItemNameLocalized_Core
 
 ItemLocales/es_MX_1.lua
