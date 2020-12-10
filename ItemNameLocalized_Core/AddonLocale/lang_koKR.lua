@@ -3,6 +3,7 @@ local locale = GetLocale()
 if locale == 'koKR' then
 	local L = INL_Addon.strings;
 
+
 L["Chat"] = {
 	["Loaded"] = "|cffff0000%s|r 로케일을 불러왔습니다.",
 	["ReloadUI"] = "|cffff0000%s|r 로케일을 불러오려면 UI를 다시 불러와야 합니다.",
@@ -18,7 +19,8 @@ L["Lang"] = {
 	["koKR"] = "한국어",
 	["ptBR"] = "포르투갈어",
 	["ruRU"] = "러시아어",
-	["zhTW"] = "중국어",
+	["zhCN"] = "중국어 간체",
+	["zhTW"] = "중국어 번체",
 }
 L["Options"] = {
 	["ReloadUIButton"] = "UI 다시 불러오기",

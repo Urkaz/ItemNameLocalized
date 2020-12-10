@@ -18,7 +18,8 @@ L["Lang"] = {
 	["koKR"] = "Korean",
 	["ptBR"] = "Portuguese",
 	["ruRU"] = "Russian",
-	["zhTW"] = "Chinese",
+	["zhCN"] = "Simplified Chinese",
+	["zhTW"] = "Traditional Chinese",
 }
 L["Options"] = {
 	["ReloadUIButton"] = "Reload UI",
