@@ -1,0 +1,15 @@
+## Interface: 90002
+## Title: ItemNameLocalized [Korean module]
+## Notes: Module for Item Name Localized with ko_KR localizations
+## Author: Urkaz
+## Version: 2.2
+## Dependencies: ItemNameLocalized_Core
+
+ItemLocales/ko_KR_1.lua
+ItemLocales/ko_KR_2.lua
+
+SpellLocales/ko_KR_1.lua
+SpellLocales/ko_KR_2.lua
+SpellLocales/ko_KR_3.lua
+
+Core.lua

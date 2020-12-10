@@ -1,0 +1,15 @@
+## Interface: 90002
+## Title: ItemNameLocalized [Traditional Chinese module]
+## Notes: Module for Item Name Localized with zh_TW localizations
+## Author: Urkaz
+## Version: 2.2
+## Dependencies: ItemNameLocalized_Core
+
+ItemLocales/zh_TW_1.lua
+ItemLocales/zh_TW_2.lua
+
+SpellLocales/zh_TW_1.lua
+SpellLocales/zh_TW_2.lua
+SpellLocales/zh_TW_3.lua
+
+Core.lua
