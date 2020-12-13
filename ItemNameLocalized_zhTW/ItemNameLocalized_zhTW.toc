@@ -9,7 +9,5 @@ ItemLocales/zh_TW_1.lua
 ItemLocales/zh_TW_2.lua
 
 SpellLocales/zh_TW_1.lua
-SpellLocales/zh_TW_2.lua
-SpellLocales/zh_TW_3.lua
 
 Core.lua

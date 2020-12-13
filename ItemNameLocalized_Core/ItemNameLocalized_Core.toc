@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Title: ItemNameLocalized Core
-## Notes: Show the name of the items in a different language
+## Notes: Show the name of the items in a different language. The Core addon only includes English, other languages available as modules.
 ## Author: Urkaz
 ## Version: 2.2
 ## SavedVariablesPerCharacter: INL_Settings
@@ -10,8 +10,6 @@ Preload.lua
 ItemLocales/en_US_1.lua
 ItemLocales/en_US_2.lua
 SpellLocales/en_US_1.lua
-SpellLocales/en_US_2.lua
-SpellLocales/en_US_3.lua
 
 Core.lua
 

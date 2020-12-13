@@ -225,7 +225,7 @@ INL.CreateConfigPanel = function()
 end
 
 INL.DropDownInit = function()
-	local locales = {"enUS", "esES", "esMX", "frFR", "deDE", "itIT", "ptBR", "ruRU", "ko_KR", "zh_CN", "zh_TW"}
+	local locales = {"enUS", "esES", "esMX", "frFR", "deDE", "itIT", "ptBR", "ruRU", "koKR", "zhCN", "zhTW"}
 	local info = {}
 
 	wipe(info)

@@ -9,7 +9,5 @@ ItemLocales/ko_KR_1.lua
 ItemLocales/ko_KR_2.lua
 
 SpellLocales/ko_KR_1.lua
-SpellLocales/ko_KR_2.lua
-SpellLocales/ko_KR_3.lua
 
 Core.lua

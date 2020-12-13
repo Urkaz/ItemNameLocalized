@@ -9,7 +9,5 @@ ItemLocales/de_DE_1.lua
 ItemLocales/de_DE_2.lua
 
 SpellLocales/de_DE_1.lua
-SpellLocales/de_DE_2.lua
-SpellLocales/de_DE_3.lua
 
 Core.lua

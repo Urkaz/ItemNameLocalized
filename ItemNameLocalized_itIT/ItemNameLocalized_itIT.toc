@@ -9,7 +9,5 @@ ItemLocales/it_IT_1.lua
 ItemLocales/it_IT_2.lua
 
 SpellLocales/it_IT_1.lua
-SpellLocales/it_IT_2.lua
-SpellLocales/it_IT_3.lua
 
 Core.lua

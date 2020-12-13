@@ -7,6 +7,9 @@ INL_Items = {
 	itIT = {},
 	ptBR = {},
 	ruRU = {},
+	koKR = {},
+	zhCN = {},
+	zhTW = {},
 }
 
 INL_Spells = {
@@ -18,4 +21,7 @@ INL_Spells = {
 	itIT = {},
 	ptBR = {},
 	ruRU = {},
+	koKR = {},
+	zhCN = {},
+	zhTW = {},
 }
