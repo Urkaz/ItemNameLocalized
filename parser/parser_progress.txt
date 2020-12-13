@@ -1,5 +1,5 @@
 -- ITEMS -- 
-parser.py 184843 184843
+parser.py 184846 184846
 
 -- SPELLS --
-spell_parser.py 1 350000
+spell_parser.py 350000 350000

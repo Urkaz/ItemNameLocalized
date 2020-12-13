@@ -3,6 +3,7 @@
 * Added suport again for koKR, zhTW.
 * Added support for zhCN.
 * Updated addon localizations.
+* Blizzard made a BIG cleanup of the spells available through the API, so the addon is now lighter.
 
 ### v2.1
 * Updated to patch 9.0.1.

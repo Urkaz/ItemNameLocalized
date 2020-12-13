@@ -104,7 +104,7 @@ class File():
 		f.close()
 		
 	def Splitter(self):
-		splitLen = 100000
+		splitLen = 90000
 		outputBase = self.path[:-4]
 		
 		input = open(self.path, 'r', encoding="utf8")
