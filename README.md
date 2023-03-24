@@ -1,3 +1,7 @@
+# PROJECT DISCONTINUED
+
+Project discontinued due to Blizzard API limitations, and lack of time to find a better solution.
+
 # Item Name Localized
 
 [Download it on Curse](https://www.curseforge.com/wow/addons/item-name-localized)
